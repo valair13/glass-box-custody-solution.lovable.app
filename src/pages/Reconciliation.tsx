@@ -1,4 +1,4 @@
-import { Download, FileText, AlertTriangle, TrendingUp, RefreshCw, BarChart3, FileCheck } from "lucide-react";
+import { Download, FileText, AlertTriangle, TrendingUp, RefreshCw, BarChart3, FileCheck, Boxes } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import KPICard from "@/components/KPICard";
 import { Button } from "@/components/ui/button";
@@ -128,16 +128,9 @@ export default function Reconciliation() {
             value={totalChains.toString()}
             subtitle={`${operationalChains} operational • ${chainsWithIssues} has issue`}
             icon={
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-[#5671B0]/10">
-                    <AlertTriangle className="w-6 h-6 text-[#5671B0]" />
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Anomaly detected: Delayed confirmations due to network congestion.</p>
-                </TooltipContent>
-              </Tooltip>
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#E8EEFA]">
+                <Boxes className="w-6 h-6 text-[#2563EB]" />
+              </div>
             }
           />
           
