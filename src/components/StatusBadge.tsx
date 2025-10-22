@@ -16,15 +16,15 @@ const statusStyles = {
   "confirmed": "bg-success/10 text-success border-success/20",
   "settled": "bg-success text-success-foreground border-success",
   "under-review": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
-  "cleared": "bg-[#E8F6EE] text-[#16A34A] border-transparent",
-  "blocked": "bg-[#FCECEC] text-[#DC2626] border-transparent",
+  "cleared": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
+  "blocked": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
   "low": "bg-success/10 text-success border-success/20",
   "medium": "bg-warning/10 text-warning-foreground border-warning/20",
   "high": "bg-destructive/10 text-destructive border-destructive/20",
   "pending": "bg-muted text-muted-foreground border-border",
-  "low-risk": "bg-[#E8F6EE] text-[#15803D] border-transparent",
-  "medium-risk": "bg-[#FFF8E1] text-[#D97706] border-transparent",
-  "high-risk": "bg-[#FCECEC] text-[#DC2626] border-transparent",
+  "low-risk": "bg-[#E8F6EE] text-[#166534] border-transparent",
+  "medium-risk": "bg-[#FFF8E1] text-[#996633] border-transparent",
+  "high-risk": "bg-[#FCECEC] text-[#A32323] border-transparent",
 };
 
 export default function StatusBadge({ status, children, className }: StatusBadgeProps) {
@@ -34,8 +34,7 @@ export default function StatusBadge({ status, children, className }: StatusBadge
     <span
       className={cn(
         "inline-flex items-center justify-center rounded-full font-semibold",
-        "text-[11px] px-3 h-[28px]",
-        isRiskBadge ? "" : "uppercase",
+        "text-[12px] px-3 h-[28px]",
         statusStyles[status],
         className
       )}
