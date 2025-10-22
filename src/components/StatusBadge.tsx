@@ -15,16 +15,16 @@ const statusStyles = {
   "broadcasted": "bg-purple-100 text-purple-700 border-purple-200",
   "confirmed": "bg-success/10 text-success border-success/20",
   "settled": "bg-success text-success-foreground border-success",
-  "under-review": "bg-[#E7EEF9] text-[#1E3A8A] border-[#1E3A8A]/20",
-  "cleared": "bg-[#DCFCE7] text-[#16A34A] border-[#16A34A]/20",
-  "blocked": "bg-[#FEE2E2] text-[#DC2626] border-[#DC2626]/20",
+  "under-review": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
+  "cleared": "bg-[#E8F6EE] text-[#16A34A] border-transparent",
+  "blocked": "bg-[#FCECEC] text-[#DC2626] border-transparent",
   "low": "bg-success/10 text-success border-success/20",
   "medium": "bg-warning/10 text-warning-foreground border-warning/20",
   "high": "bg-destructive/10 text-destructive border-destructive/20",
   "pending": "bg-muted text-muted-foreground border-border",
-  "low-risk": "bg-[#DCFCE7] text-[#16A34A] border-[#16A34A]/20",
-  "medium-risk": "bg-[#FEF9C3] text-[#FACC15] border-[#FACC15]/20",
-  "high-risk": "bg-[#FEE2E2] text-[#DC2626] border-[#DC2626]/20",
+  "low-risk": "bg-[#E8F6EE] text-[#15803D] border-transparent",
+  "medium-risk": "bg-[#FFF8E1] text-[#D97706] border-transparent",
+  "high-risk": "bg-[#FCECEC] text-[#DC2626] border-transparent",
 };
 
 export default function StatusBadge({ status, children, className }: StatusBadgeProps) {
@@ -33,9 +33,9 @@ export default function StatusBadge({ status, children, className }: StatusBadge
   return (
     <span
       className={cn(
-        "inline-flex items-center justify-center rounded-full font-semibold border",
-        isRiskBadge ? "text-[11px]" : "text-xs uppercase",
-        "w-[104px] h-[28px]",
+        "inline-flex items-center justify-center rounded-full font-semibold",
+        "text-[11px] px-3 h-[28px]",
+        isRiskBadge ? "" : "uppercase",
         statusStyles[status],
         className
       )}

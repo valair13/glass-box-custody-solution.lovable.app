@@ -242,20 +242,20 @@ export default function Compliance() {
       </div>
 
       {/* Compliance Cases Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
         {filteredCases.map((complianceCase) => (
           <Card
             key={complianceCase.id}
             className="glass-panel-hover rounded-2xl p-6 cursor-pointer flex flex-col shadow-[0_2px_8px_rgba(0,0,0,0.05)]"
             onClick={() => setSelectedCase(complianceCase)}
           >
-            {/* Header - Title, Risk Badge, and Status Badge */}
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex-1">
-                <h3 className="text-[20px] font-medium mb-1">{complianceCase.title}</h3>
-                <p className="text-[16px] font-bold text-foreground">{complianceCase.subtitle}</p>
+            {/* Header - Title with Badges horizontally aligned */}
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex-1 pr-4">
+                <h3 className="text-[18px] font-semibold text-[#111827] mb-1">{complianceCase.title}</h3>
+                <p className="text-[15px] text-[#334155]">{complianceCase.subtitle}</p>
               </div>
-              <div className="flex flex-col gap-2 items-end">
+              <div className="flex items-center gap-2">
                 <StatusBadge status={complianceCase.status}>
                   {complianceCase.status === "under-review" ? "Under Review" : 
                    complianceCase.status === "cleared" ? "Cleared" : "Blocked"}
@@ -268,16 +268,16 @@ export default function Compliance() {
             </div>
 
             {/* Address */}
-            <div className="mb-3">
-              <div className="text-xs text-muted-foreground mb-1">Address</div>
+            <div className="mb-4">
+              <div className="text-xs text-[#6B7280] mb-2">Address</div>
               <div className="flex items-center gap-2">
-                <code className="text-sm font-mono bg-muted px-2 py-1 rounded flex-1 truncate">
+                <code className="text-sm font-mono bg-[#F3F5F9] border border-[#E2E8F0] px-4 py-2.5 rounded-lg flex-1 truncate text-[#111827]">
                   {complianceCase.address}
                 </code>
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="h-8 w-8 shrink-0"
+                  className="h-9 w-9 shrink-0 text-[#6B7280] hover:text-[#111827]"
                   onClick={(e) => {
                     e.stopPropagation();
                     navigator.clipboard.writeText(complianceCase.address);
@@ -288,7 +288,7 @@ export default function Compliance() {
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="h-8 w-8 shrink-0"
+                  className="h-9 w-9 shrink-0 text-[#6B7280] hover:text-[#111827]"
                   onClick={(e) => {
                     e.stopPropagation();
                     window.open(`https://etherscan.io/address/${complianceCase.address}`, '_blank');
@@ -300,26 +300,26 @@ export default function Compliance() {
             </div>
 
             {/* Description */}
-            <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+            <p className="text-[14px] leading-[150%] text-[#6B7280] mb-5 line-clamp-2">
               {complianceCase.description}
             </p>
 
             {/* Responsible & ETA */}
-            <div className="flex items-center justify-between mb-4 pt-3 border-t">
+            <div className="flex items-center justify-between mb-2 pt-4 border-t border-[#E2E8F0]">
               <div>
-                <div className="text-xs text-muted-foreground mb-1">Responsible</div>
-                <div className="text-sm font-medium">{complianceCase.assignedTo}</div>
+                <div className="text-[13px] text-[#6B7280] mb-1">Responsible</div>
+                <div className="text-[14px] font-medium text-[#111827]">{complianceCase.assignedTo}</div>
               </div>
               <div className="text-right">
-                <div className="text-xs text-muted-foreground mb-1">ETA</div>
-                <div className="text-sm font-medium">{complianceCase.eta}</div>
+                <div className="text-[13px] text-[#6B7280] mb-1">ETA</div>
+                <div className="text-[14px] font-medium text-[#111827]">{complianceCase.eta}</div>
               </div>
             </div>
 
             {/* Action Button */}
-            <div className="mt-auto">
+            <div className="mt-2">
               <Button
-                className="w-full"
+                className="w-full disabled:opacity-40 disabled:cursor-not-allowed"
                 disabled={complianceCase.status === "cleared" || complianceCase.status === "blocked"}
                 onClick={(e) => {
                   e.stopPropagation();
