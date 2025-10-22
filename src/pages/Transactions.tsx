@@ -169,24 +169,36 @@ export default function Transactions() {
       {/* Predictive Risk & Anomalies */}
       <Card className="glass-panel rounded-2xl p-6">
         <h2 className="text-lg font-semibold mb-4">Predictive Risk & Anomalies (last 24h)</h2>
-        <div className="space-y-3">
-          <div className="flex items-start gap-3">
-            <StatusBadge status="medium" className="shrink-0">MEDIUM</StatusBadge>
-            <p className="text-sm text-muted-foreground">
-              Ethereum: finality delayed by 12 blocks — 09:20 UTC
+        <div className="divide-y divide-[#E2E8F0]">
+          <div className="flex items-center gap-4 h-[52px]">
+            <StatusBadge status="medium-risk" className="shrink-0">Medium Risk</StatusBadge>
+            <p className="text-[14px] font-medium text-[#0F172A] flex-1">
+              Transaction amount 3.2x above average
             </p>
+            <span className="inline-flex items-center justify-center rounded-full bg-[#E8EEFA] text-[#1E3A8A] font-medium text-[13px] px-[14px] h-[28px]">
+              Unusual withdrawal size
+            </span>
+            <span className="text-[13px] text-[#64748B]">5 min ago</span>
           </div>
-          <div className="flex items-start gap-3">
-            <StatusBadge status="medium" className="shrink-0">MEDIUM</StatusBadge>
-            <p className="text-sm text-muted-foreground">
-              Transaction amount 3.2× above 30d average — 09:16 UTC
+          <div className="flex items-center gap-4 h-[52px]">
+            <StatusBadge status="medium-risk" className="shrink-0">Medium Risk</StatusBadge>
+            <p className="text-[14px] font-medium text-[#0F172A] flex-1">
+              Ethereum: finality delayed by 12 blocks
             </p>
+            <span className="inline-flex items-center justify-center rounded-full bg-[#E8EEFA] text-[#1E3A8A] font-medium text-[13px] px-[14px] h-[28px]">
+              Network delay detected
+            </span>
+            <span className="text-[13px] text-[#64748B]">8 min ago</span>
           </div>
-          <div className="flex items-start gap-3">
-            <StatusBadge status="low" className="shrink-0">LOW</StatusBadge>
-            <p className="text-sm text-muted-foreground">
-              System normal — 09:10 UTC
+          <div className="flex items-center gap-4 h-[52px]">
+            <StatusBadge status="high-risk" className="shrink-0">High Risk</StatusBadge>
+            <p className="text-[14px] font-medium text-[#0F172A] flex-1">
+              Multiple approval signatures pending beyond threshold
             </p>
+            <span className="inline-flex items-center justify-center rounded-full bg-[#E8EEFA] text-[#1E3A8A] font-medium text-[13px] px-[14px] h-[28px]">
+              Pending approvals
+            </span>
+            <span className="text-[13px] text-[#64748B]">12 min ago</span>
           </div>
         </div>
       </Card>

@@ -22,9 +22,9 @@ const statusStyles = {
   "medium": "bg-warning/10 text-warning-foreground border-warning/20",
   "high": "bg-destructive/10 text-destructive border-destructive/20",
   "pending": "bg-muted text-muted-foreground border-border",
-  "low-risk": "bg-[#E8F6EE] text-[#166534] border-transparent",
-  "medium-risk": "bg-[#FFF8E1] text-[#996633] border-transparent",
-  "high-risk": "bg-[#FCECEC] text-[#A32323] border-transparent",
+  "low-risk": "bg-[#DCFCE7] text-[#166534] border-transparent",
+  "medium-risk": "bg-[#FEF3C7] text-[#92400E] border-transparent",
+  "high-risk": "bg-[#FEE2E2] text-[#B91C1C] border-transparent",
 };
 
 export default function StatusBadge({ status, children, className }: StatusBadgeProps) {
