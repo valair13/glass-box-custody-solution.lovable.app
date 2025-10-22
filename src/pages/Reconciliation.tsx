@@ -20,6 +20,8 @@ interface ChainData {
   risk: "low" | "medium" | "high";
   reconciliation: number;
   networkNote?: string;
+  networkStatus: "operational" | "delayed" | "degraded" | "offline";
+  assetsTracked: number;
 }
 
 const chainData: ChainData[] = [
@@ -32,6 +34,8 @@ const chainData: ChainData[] = [
     lastVerified: "2 min ago",
     risk: "low",
     reconciliation: 98.2,
+    networkStatus: "operational",
+    assetsTracked: 3,
   },
   {
     chain: "Bitcoin",
@@ -42,6 +46,8 @@ const chainData: ChainData[] = [
     lastVerified: "5 min ago",
     risk: "low",
     reconciliation: 99.1,
+    networkStatus: "operational",
+    assetsTracked: 1,
   },
   {
     chain: "Solana",
@@ -52,7 +58,9 @@ const chainData: ChainData[] = [
     lastVerified: "8 min ago",
     risk: "medium",
     reconciliation: 95.3,
-    networkNote: "Network congestion detected. Reconciliation delay.",
+    networkNote: "Network congestion detected. Reconciliation delayed.",
+    networkStatus: "delayed",
+    assetsTracked: 2,
   },
   {
     chain: "Polygon",
@@ -63,6 +71,8 @@ const chainData: ChainData[] = [
     lastVerified: "3 min ago",
     risk: "low",
     reconciliation: 97.4,
+    networkStatus: "operational",
+    assetsTracked: 2,
   },
   {
     chain: "Avalanche",
@@ -73,6 +83,8 @@ const chainData: ChainData[] = [
     lastVerified: "4 min ago",
     risk: "low",
     reconciliation: 97.9,
+    networkStatus: "operational",
+    assetsTracked: 2,
   },
   {
     chain: "Arbitrum",
@@ -83,6 +95,8 @@ const chainData: ChainData[] = [
     lastVerified: "6 min ago",
     risk: "low",
     reconciliation: 96.3,
+    networkStatus: "operational",
+    assetsTracked: 2,
   },
 ];
 
@@ -184,7 +198,7 @@ export default function Reconciliation() {
                 <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Under Review</th>
                 <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Last Verified</th>
                 <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Reconciliation Level</th>
-                <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Risk</th>
+                <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Network Health</th>
                 <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Actions</th>
               </tr>
             </thead>
@@ -195,24 +209,26 @@ export default function Reconciliation() {
                     key={chain.chain}
                     className="border-t border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors"
                   >
-                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-3 relative">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-[#5671B0]/10 flex items-center justify-center">
                           <span className="text-[#5671B0] text-xs font-semibold">
                             {chain.chain.substring(0, 2).toUpperCase()}
                           </span>
                         </div>
-                        <span className="text-[14px] font-medium text-[#111827]">{chain.chain}</span>
-                        {chain.networkNote && (
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <AlertTriangle className="w-4 h-4 text-[#B45309] cursor-help absolute -top-1 -right-1" />
-                            </TooltipTrigger>
-                            <TooltipContent className="bg-white text-[#92400E]">
-                              <p>Anomaly Detected: {chain.networkNote}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        )}
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[14px] font-medium text-[#111827]">{chain.chain}</span>
+                          {chain.networkNote && (
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <AlertTriangle className="w-4 h-4 text-[#B45309] cursor-help" />
+                              </TooltipTrigger>
+                              <TooltipContent className="bg-white text-[#92400E]">
+                                <p>{chain.networkNote}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          )}
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-[14px] text-[#6B7280]">{chain.asset}</td>
@@ -258,13 +274,14 @@ export default function Reconciliation() {
         <h2 className="text-[18px] font-semibold text-[#111827] mb-6">Blockchain House Map</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {chainData.map((chain) => {
-            const hasAnomaly = chain.reconciliation < 95 || chain.networkNote;
-            const getPercentageColor = () => {
-              if (hasAnomaly) return "#B45309"; // Yellow-brown for issues
-              if (chain.risk === "medium") return "#B45309"; // Yellow-brown for medium risk
-              if (chain.risk === "high") return "#A32323"; // Red for high risk
-              return "#2563EB"; // Blue for normal/stable
+            const statusConfig = {
+              operational: { label: "Operational", color: "#15803D", bg: "#F0FDF4" },
+              delayed: { label: "Delayed", color: "#B45309", bg: "#FFFBEB" },
+              degraded: { label: "Degraded", color: "#D97706", bg: "#FEF3C7" },
+              offline: { label: "Offline", color: "#B91C1C", bg: "#FEF2F2" },
             };
+            
+            const status = statusConfig[chain.networkStatus];
             
             return (
               <Tooltip key={chain.chain}>
@@ -277,14 +294,25 @@ export default function Reconciliation() {
                         {chain.chain.substring(0, 2).toUpperCase()}
                       </span>
                     </div>
-                    <div className="text-[13px] font-semibold text-[#1E293B] mb-1">{chain.chain}</div>
-                    <div className="text-[20px] font-bold mb-1" style={{ color: getPercentageColor() }}>
-                      {chain.reconciliation}%
+                    <div className="text-[13px] font-semibold text-[#1E293B] mb-3">{chain.chain}</div>
+                    
+                    <div className="space-y-2">
+                      <div 
+                        className="inline-block px-2 py-1 rounded text-[11px] font-semibold"
+                        style={{ backgroundColor: status.bg, color: status.color }}
+                      >
+                        {status.label}
+                      </div>
+                      <div className="text-[12px] text-[#6B7280]">
+                        Last Verified: {chain.lastVerified}
+                      </div>
+                      <div className="text-[12px] text-[#6B7280]">
+                        Assets tracked: {chain.assetsTracked}
+                      </div>
                     </div>
-                    <div className="text-[11px] text-[#6B7280]">{chain.lastVerified}</div>
                   </div>
                 </TooltipTrigger>
-                {hasAnomaly && chain.networkNote && (
+                {chain.networkNote && (
                   <TooltipContent>
                     <p>{chain.networkNote}</p>
                   </TooltipContent>
