@@ -27,7 +27,8 @@ export default function StatusBadge({ status, children, className }: StatusBadge
   return (
     <span
       className={cn(
-        "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border",
+        "inline-flex items-center justify-center rounded-full font-medium border uppercase",
+        "w-[104px] h-[28px] text-xs",
         statusStyles[status],
         className
       )}

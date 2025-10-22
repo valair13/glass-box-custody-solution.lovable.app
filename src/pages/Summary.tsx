@@ -112,11 +112,6 @@ export default function Summary() {
           icon={Network}
           status="success"
         />
-        <div className="glass-panel rounded-2xl p-6">
-          <p className="text-sm text-muted-foreground mt-2">
-            Last verified 2m ago
-          </p>
-        </div>
         <KPICard
           title="Last ERP Sync"
           value="2 min"
@@ -172,10 +167,9 @@ export default function Summary() {
                 <Line 
                   type="monotone" 
                   dataKey="score" 
-                  stroke="hsl(var(--success))" 
-                  strokeWidth={3}
-                  dot={{ fill: "hsl(var(--success))", r: 4 }}
-                  activeDot={{ r: 6 }}
+                  stroke="#1E3A8A" 
+                  strokeWidth={1.5}
+                  dot={false}
                 />
               </LineChart>
             </ResponsiveContainer>
