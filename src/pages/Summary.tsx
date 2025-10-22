@@ -136,50 +136,42 @@ export default function Summary() {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex items-center gap-8">
-          <div className="flex-1 h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={getTransparencyData()}>
-                <defs>
-                  <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="hsl(var(--success))" stopOpacity={0.8} />
-                    <stop offset="100%" stopColor="hsl(var(--success))" stopOpacity={0.1} />
-                  </linearGradient>
-                </defs>
-                <XAxis 
-                  dataKey="date" 
-                  stroke="hsl(var(--muted-foreground))"
-                  fontSize={12}
-                />
-                <YAxis 
-                  domain={[85, 100]} 
-                  stroke="hsl(var(--muted-foreground))"
-                  fontSize={12}
-                />
-                <Tooltip 
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
-                    borderRadius: "8px",
-                  }}
-                  formatter={(value: number) => [`${value}%`, "Score"]}
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="score" 
-                  stroke="#1E3A8A" 
-                  strokeWidth={1.5}
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="text-[44px] font-semibold text-success tabular-nums">
-              {currentScore}%
-            </div>
-            <div className="text-sm text-muted-foreground">Current</div>
-          </div>
+        <div className="h-80">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={getTransparencyData()}>
+              <defs>
+                <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="hsl(var(--success))" stopOpacity={0.8} />
+                  <stop offset="100%" stopColor="hsl(var(--success))" stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
+              <XAxis 
+                dataKey="date" 
+                stroke="hsl(var(--muted-foreground))"
+                fontSize={12}
+              />
+              <YAxis 
+                domain={[85, 100]} 
+                stroke="hsl(var(--muted-foreground))"
+                fontSize={12}
+              />
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: "hsl(var(--card))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "8px",
+                }}
+                formatter={(value: number) => [`${value}%`, "Score"]}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="score" 
+                stroke="#1E3A8A" 
+                strokeWidth={1.5}
+                dot={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </Card>
 
