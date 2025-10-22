@@ -2,7 +2,8 @@ import { cn } from "@/lib/utils";
 
 interface StatusBadgeProps {
   status: "initiated" | "approvals" | "hsm-signed" | "broadcasted" | "confirmed" | "settled" | 
-          "under-review" | "cleared" | "blocked" | "low" | "medium" | "high" | "pending";
+          "under-review" | "cleared" | "blocked" | "low" | "medium" | "high" | "pending" |
+          "low-risk" | "medium-risk" | "high-risk";
   children: React.ReactNode;
   className?: string;
 }
@@ -21,14 +22,20 @@ const statusStyles = {
   "medium": "bg-warning/10 text-warning-foreground border-warning/20",
   "high": "bg-destructive/10 text-destructive border-destructive/20",
   "pending": "bg-muted text-muted-foreground border-border",
+  "low-risk": "bg-[#DCFCE7] text-[#16A34A] border-[#16A34A]/20",
+  "medium-risk": "bg-[#FEF9C3] text-[#FACC15] border-[#FACC15]",
+  "high-risk": "bg-[#FEE2E2] text-[#DC2626] border-[#DC2626]/20",
 };
 
 export default function StatusBadge({ status, children, className }: StatusBadgeProps) {
+  const isRiskBadge = status.includes("-risk");
+  
   return (
     <span
       className={cn(
-        "inline-flex items-center justify-center rounded-full font-medium border uppercase",
-        "w-[104px] h-[28px] text-xs",
+        "inline-flex items-center justify-center rounded-full font-semibold border",
+        isRiskBadge ? "text-[11px]" : "text-xs uppercase",
+        "w-[104px] h-[28px]",
         statusStyles[status],
         className
       )}

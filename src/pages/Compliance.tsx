@@ -226,15 +226,22 @@ export default function Compliance() {
             className="glass-panel-hover rounded-2xl p-6 cursor-pointer flex flex-col"
             onClick={() => setSelectedCase(complianceCase)}
           >
-            {/* Header - Title and Risk Badge */}
+            {/* Header - Title, Risk Badge, and Status Badge */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex-1">
                 <h3 className="text-[20px] font-medium mb-1">{complianceCase.title}</h3>
                 <p className="text-[16px] font-bold text-foreground">{complianceCase.subtitle}</p>
               </div>
-              <StatusBadge status={complianceCase.riskLevel}>
-                {complianceCase.riskLevel.toUpperCase()}
-              </StatusBadge>
+              <div className="flex flex-col gap-2 items-end">
+                <StatusBadge status={complianceCase.status}>
+                  {complianceCase.status === "under-review" ? "Under Review" : 
+                   complianceCase.status === "cleared" ? "Cleared" : "Blocked"}
+                </StatusBadge>
+                <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
+                  {complianceCase.riskLevel === "low" ? "Low Risk" : 
+                   complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
+                </StatusBadge>
+              </div>
             </div>
 
             {/* Address */}
@@ -286,25 +293,17 @@ export default function Compliance() {
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex gap-3 mt-auto">
+            {/* Action Button */}
+            <div className="mt-auto">
               <Button
-                className="flex-1"
+                className="w-full"
+                disabled={complianceCase.status === "cleared" || complianceCase.status === "blocked"}
                 onClick={(e) => {
                   e.stopPropagation();
                   setSelectedCase(complianceCase);
                 }}
               >
-                Resolve Case
-              </Button>
-              <Button
-                variant="secondary"
-                className="flex-1"
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                Export Log
+                Resolve
               </Button>
             </div>
           </Card>
@@ -332,8 +331,9 @@ export default function Compliance() {
                   </div>
                   <div>
                     <div className="text-sm text-muted-foreground mb-1">Risk Level</div>
-                    <StatusBadge status={selectedCase.riskLevel}>
-                      {selectedCase.riskLevel.toUpperCase()}
+                    <StatusBadge status={`${selectedCase.riskLevel}-risk` as any}>
+                      {selectedCase.riskLevel === "low" ? "Low Risk" : 
+                       selectedCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
                     </StatusBadge>
                   </div>
                   <div>
@@ -419,17 +419,30 @@ export default function Compliance() {
                     <Button variant="outline" className="flex-1">
                       Send for Manual Review
                     </Button>
+                    <Button variant="secondary" className="flex-1">
+                      Export Log
+                    </Button>
                   </>
                 )}
                 {selectedCase.status === "cleared" && (
-                  <Button variant="outline" className="w-full">
-                    View Clearance Report
-                  </Button>
+                  <>
+                    <Button variant="outline" className="flex-1">
+                      View Clearance Report
+                    </Button>
+                    <Button variant="secondary" className="flex-1">
+                      Export Log
+                    </Button>
+                  </>
                 )}
                 {selectedCase.status === "blocked" && (
-                  <Button variant="destructive" className="w-full">
-                    Escalate to Risk Committee
-                  </Button>
+                  <>
+                    <Button variant="destructive" className="flex-1">
+                      Escalate to Risk Committee
+                    </Button>
+                    <Button variant="secondary" className="flex-1">
+                      Export Log
+                    </Button>
+                  </>
                 )}
               </div>
             </div>
