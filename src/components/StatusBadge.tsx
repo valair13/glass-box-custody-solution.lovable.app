@@ -10,7 +10,7 @@ interface StatusBadgeProps {
 
 const statusStyles = {
   "initiated": "bg-blue-100 text-blue-700 border-blue-200",
-  "approvals": "bg-[#E6EEF9] text-white border-transparent",
+  "approvals": "bg-[#C9DAF8] text-white border-transparent",
   "hsm-signed": "bg-[#7CA6F2] text-white border-transparent",
   "broadcasted": "bg-[#3C6FE0] text-white border-transparent",
   "confirmed": "bg-[#264FAD] text-white border-transparent",
