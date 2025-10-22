@@ -107,7 +107,7 @@ All colors MUST be HSL.
   }
 
   .text-kpi {
-    @apply text-[42px] font-semibold tabular-nums;
+    @apply text-[44px] font-semibold tabular-nums;
   }
 
   .text-heading {

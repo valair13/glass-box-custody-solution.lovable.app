@@ -29,6 +29,8 @@ export default function KPICard({
     neutral: "text-foreground",
   };
 
+  const iconColor = "#5671B0"; // Soft Blue for all icons
+
   return (
     <div className={cn("glass-panel-hover rounded-2xl p-6", className)}>
       <div className="flex items-start justify-between mb-4">
@@ -36,7 +38,7 @@ export default function KPICard({
           {title}
         </h3>
         {Icon && (
-          <Icon className={cn("w-5 h-5", statusColors[status])} />
+          <Icon className="w-5 h-5" style={{ color: iconColor }} />
         )}
       </div>
 

@@ -2,15 +2,58 @@ import { TrendingUp, DollarSign, Clock, CheckCircle, Network, RefreshCw } from "
 import KPICard from "@/components/KPICard";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
 
 export default function Summary() {
-  const transparencyData = [
-    { month: "Oct", score: 92 },
-    { month: "Nov", score: 94 },
-    { month: "Dec", score: 95 },
-    { month: "Jan", score: 96 },
-    { month: "Feb", score: 97 },
-    { month: "Mar", score: 97 },
+  const [timeRange, setTimeRange] = useState("30d");
+
+  const transparencyData30d = [
+    { date: "Jan 1", score: 92 },
+    { date: "Jan 5", score: 93 },
+    { date: "Jan 10", score: 94 },
+    { date: "Jan 15", score: 95 },
+    { date: "Jan 20", score: 96 },
+    { date: "Jan 25", score: 97 },
+    { date: "Jan 30", score: 94 },
+  ];
+
+  const transparencyData7d = [
+    { date: "Mon", score: 93 },
+    { date: "Tue", score: 94 },
+    { date: "Wed", score: 95 },
+    { date: "Thu", score: 94 },
+    { date: "Fri", score: 96 },
+    { date: "Sat", score: 95 },
+    { date: "Sun", score: 94 },
+  ];
+
+  const transparencyData90d = [
+    { date: "Oct", score: 88 },
+    { date: "Nov", score: 90 },
+    { date: "Dec", score: 92 },
+    { date: "Jan", score: 94 },
+  ];
+
+  const getTransparencyData = () => {
+    switch (timeRange) {
+      case "7d":
+        return transparencyData7d;
+      case "90d":
+        return transparencyData90d;
+      default:
+        return transparencyData30d;
+    }
+  };
+
+  const currentScore = 94;
+
+  const assetAllocationData = [
+    { asset: "Bitcoin", value: 980, percentage: 41, color: "#F7931A" },
+    { asset: "Ethereum", value: 720, percentage: 30, color: "#627EEA" },
+    { asset: "USDC", value: 480, percentage: 20, color: "#2775CA" },
+    { asset: "Others", value: 220, percentage: 9, color: "#94A3B8" },
   ];
 
   return (
@@ -65,10 +108,15 @@ export default function Summary() {
         <KPICard
           title="Cross-chain Reconciliation"
           value="97%"
-          subtitle="2% pending, 1% under review"
+          subtitle="4 pending • 1 under review"
           icon={Network}
           status="success"
         />
+        <div className="glass-panel rounded-2xl p-6">
+          <p className="text-sm text-muted-foreground mt-2">
+            Last verified 2m ago
+          </p>
+        </div>
         <KPICard
           title="Last ERP Sync"
           value="2 min"
@@ -80,20 +128,64 @@ export default function Summary() {
 
       {/* Transparency Trend Chart */}
       <Card className="glass-panel rounded-2xl p-6">
-        <h2 className="text-xl font-semibold mb-6">Transparency Score Trend</h2>
-        <div className="h-64 flex items-end justify-around gap-4">
-          {transparencyData.map((data, i) => (
-            <div key={i} className="flex-1 flex flex-col items-center gap-3">
-              <div className="text-sm font-medium text-success">
-                {data.score}%
-              </div>
-              <div
-                className="w-full bg-gradient-to-t from-success to-success/30 rounded-t-lg transition-all duration-500"
-                style={{ height: `${data.score}%` }}
-              />
-              <div className="text-sm text-muted-foreground">{data.month}</div>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold">Transparency Score Trend</h2>
+          <Select value={timeRange} onValueChange={setTimeRange}>
+            <SelectTrigger className="w-[120px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7d">7 days</SelectItem>
+              <SelectItem value="30d">30 days</SelectItem>
+              <SelectItem value="90d">90 days</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex items-center gap-8">
+          <div className="flex-1 h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={getTransparencyData()}>
+                <defs>
+                  <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--success))" stopOpacity={0.8} />
+                    <stop offset="100%" stopColor="hsl(var(--success))" stopOpacity={0.1} />
+                  </linearGradient>
+                </defs>
+                <XAxis 
+                  dataKey="date" 
+                  stroke="hsl(var(--muted-foreground))"
+                  fontSize={12}
+                />
+                <YAxis 
+                  domain={[85, 100]} 
+                  stroke="hsl(var(--muted-foreground))"
+                  fontSize={12}
+                />
+                <Tooltip 
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                  }}
+                  formatter={(value: number) => [`${value}%`, "Score"]}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="score" 
+                  stroke="hsl(var(--success))" 
+                  strokeWidth={3}
+                  dot={{ fill: "hsl(var(--success))", r: 4 }}
+                  activeDot={{ r: 6 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="text-[44px] font-semibold text-success tabular-nums">
+              {currentScore}%
             </div>
-          ))}
+            <div className="text-sm text-muted-foreground">Current</div>
+          </div>
         </div>
       </Card>
 
@@ -101,26 +193,53 @@ export default function Summary() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="glass-panel rounded-2xl p-6">
           <h3 className="text-lg font-semibold mb-4">Asset Allocation</h3>
-          <div className="space-y-4">
-            {[
-              { asset: "Bitcoin", value: "$980M", percentage: 41, color: "bg-orange-500" },
-              { asset: "Ethereum", value: "$720M", percentage: 30, color: "bg-blue-500" },
-              { asset: "USDC", value: "$480M", percentage: 20, color: "bg-green-500" },
-              { asset: "Others", value: "$220M", percentage: 9, color: "bg-gray-400" },
-            ].map((item, i) => (
-              <div key={i}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-medium">{item.asset}</span>
-                  <span className="text-sm text-muted-foreground">{item.value}</span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className={`h-full ${item.color} transition-all duration-500`}
-                    style={{ width: `${item.percentage}%` }}
+          <div className="flex items-center gap-8">
+            <div className="flex-1 h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={assetAllocationData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={90}
+                    paddingAngle={2}
+                    dataKey="percentage"
+                  >
+                    {assetAllocationData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "hsl(var(--card))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: "8px",
+                    }}
+                    formatter={(value: number, name: string, props: any) => [
+                      `${props.payload.percentage}% ($${props.payload.value}M)`,
+                      props.payload.asset
+                    ]}
                   />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="space-y-3">
+              {assetAllocationData.map((item, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div 
+                    className="w-3 h-3 rounded-full" 
+                    style={{ backgroundColor: item.color }}
+                  />
+                  <div className="flex-1">
+                    <div className="font-medium text-sm">{item.asset}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {item.percentage}% • ${item.value}M
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </Card>
 
