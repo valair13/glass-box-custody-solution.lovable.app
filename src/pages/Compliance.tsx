@@ -302,8 +302,8 @@ export default function Compliance() {
             {/* Row 4: Footer Row - Risk Badge (left) + Responsible/ETA (right) */}
             <div className="flex items-center justify-between mb-5">
               <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
-                {complianceCase.riskLevel === "low" ? "Low risk" : 
-                 complianceCase.riskLevel === "medium" ? "Medium risk" : "High risk"}
+                {complianceCase.riskLevel === "low" ? "Low Risk" : 
+                 complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
               </StatusBadge>
               <div className="text-right">
                 <div className="text-[13px] font-medium text-[#111827]">{complianceCase.assignedTo}</div>
