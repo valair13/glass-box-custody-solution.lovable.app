@@ -247,10 +247,16 @@ export default function Compliance() {
             className="bg-white rounded-2xl p-6 cursor-pointer flex flex-col shadow-[0_2px_8px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-shadow"
             onClick={() => setSelectedCase(complianceCase)}
           >
-            {/* Row 1: Header Row - Title/Subtitle */}
-            <div className="mb-3">
-              <h3 className="text-[18px] font-semibold text-[#111827] mb-2">{complianceCase.title}</h3>
-              <p className="text-[15px] text-[#334155]">{complianceCase.subtitle}</p>
+            {/* Row 1: Header Row - Title/Subtitle (left) + Risk Badge (right) */}
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex-1">
+                <h3 className="text-[18px] font-semibold text-[#111827] mb-2">{complianceCase.title}</h3>
+                <p className="text-[15px] text-[#334155]">{complianceCase.subtitle}</p>
+              </div>
+              <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
+                {complianceCase.riskLevel === "low" ? "Low Risk" : 
+                 complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
+              </StatusBadge>
             </div>
 
             {/* Row 2: Address Field */}
@@ -301,15 +307,11 @@ export default function Compliance() {
               </div>
             </div>
 
-            {/* Row 5: Badge Row */}
-            <div className="flex items-center gap-2 mb-4">
+            {/* Row 5: Status Badge Row */}
+            <div className="flex items-center mb-4">
               <StatusBadge status={complianceCase.status} className="bg-[#E8EEFA] text-[#1E3A8A]">
                 {complianceCase.status === "under-review" ? "Under Review" : 
                  complianceCase.status === "cleared" ? "Cleared" : "Blocked"}
-              </StatusBadge>
-              <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
-                {complianceCase.riskLevel === "low" ? "Low Risk" : 
-                 complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
               </StatusBadge>
             </div>
 
