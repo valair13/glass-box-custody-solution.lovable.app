@@ -1,7 +1,14 @@
-import { Download, FileText, AlertTriangle } from "lucide-react";
+import { Download, FileText, AlertTriangle, TrendingUp, RefreshCw, BarChart3, FileCheck } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
+import KPICard from "@/components/KPICard";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ChainData {
   chain: string;
@@ -19,197 +26,231 @@ const chainData: ChainData[] = [
   {
     chain: "Ethereum",
     asset: "ETH, USDC, USDT",
-    confirmed: "$720M",
-    pending: "$12M",
-    underReview: "$0",
+    confirmed: "18,520",
+    pending: "850",
+    underReview: "0",
     lastVerified: "2 min ago",
     risk: "low",
-    reconciliation: 98,
+    reconciliation: 98.2,
   },
   {
     chain: "Bitcoin",
     asset: "BTC",
-    confirmed: "$980M",
-    pending: "$8M",
-    underReview: "$0",
+    confirmed: "32,150",
+    pending: "420",
+    underReview: "0",
     lastVerified: "5 min ago",
     risk: "low",
-    reconciliation: 99,
+    reconciliation: 99.1,
   },
   {
     chain: "Solana",
     asset: "SOL, USDC",
-    confirmed: "$145M",
-    pending: "$18M",
-    underReview: "$5M",
+    confirmed: "25,430",
+    pending: "1,250",
+    underReview: "120",
     lastVerified: "8 min ago",
     risk: "medium",
-    reconciliation: 86,
-    networkNote: "2 delayed confirmations — network congestion",
+    reconciliation: 95.3,
+    networkNote: "Network congestion detected. Reconciliation delay.",
   },
   {
     chain: "Polygon",
     asset: "MATIC, USDC",
-    confirmed: "$92M",
-    pending: "$3M",
-    underReview: "$0",
+    confirmed: "14,280",
+    pending: "380",
+    underReview: "0",
     lastVerified: "3 min ago",
     risk: "low",
-    reconciliation: 97,
+    reconciliation: 97.4,
   },
   {
     chain: "Avalanche",
     asset: "AVAX, USDC",
-    confirmed: "$68M",
-    pending: "$2M",
-    underReview: "$0",
+    confirmed: "9,640",
+    pending: "210",
+    underReview: "0",
     lastVerified: "4 min ago",
     risk: "low",
-    reconciliation: 97,
+    reconciliation: 97.9,
+  },
+  {
+    chain: "Arbitrum",
+    asset: "ETH, USDC",
+    confirmed: "11,850",
+    pending: "450",
+    underReview: "0",
+    lastVerified: "6 min ago",
+    risk: "low",
+    reconciliation: 96.3,
   },
 ];
 
 export default function Reconciliation() {
-  const totalConfirmed = chainData.reduce((acc, c) => acc + c.reconciliation, 0) / chainData.length;
-  const totalPending = chainData.filter(c => parseFloat(c.pending.replace(/[$M]/g, '')) > 0).length;
-  const totalUnderReview = chainData.filter(c => parseFloat(c.underReview.replace(/[$M]/g, '')) > 0).length;
+  const totalChains = chainData.length;
+  const chainsWithIssues = chainData.filter(c => c.reconciliation < 95 || c.networkNote).length;
+  const operationalChains = totalChains - chainsWithIssues;
+  
+  const avgReconciliation = chainData.reduce((acc, c) => acc + c.reconciliation, 0) / chainData.length;
+  
+  const totalUnderReview = chainData.reduce((acc, c) => acc + parseInt(c.underReview.replace(/,/g, '')), 0);
+  const chainsWithReview = chainData.filter(c => parseInt(c.underReview.replace(/,/g, '')) > 0).length;
 
   return (
-    <div className="p-8 space-y-8">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-heading mb-2">Cross-chain Reconciliation Hub</h1>
-          <p className="text-muted-foreground">
+    <TooltipProvider>
+      <div className="p-8 space-y-6">
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="text-[32px] font-semibold text-[#111827] mb-2">Cross-chain Reconciliation Hub</h1>
+          <p className="text-[15px] text-[#6B7280]">
             Multi-chain asset reporting and compliance status in one audit-friendly view
           </p>
         </div>
+
+        {/* KPI Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <KPICard
+            title="Total Chains"
+            value={totalChains.toString()}
+            subtitle={`${operationalChains} operational • ${chainsWithIssues} has issue`}
+            icon={
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-[#5671B0]/10">
+                    <AlertTriangle className="w-6 h-6 text-[#5671B0]" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Anomaly detected: Delayed confirmations due to network congestion.</p>
+                </TooltipContent>
+              </Tooltip>
+            }
+          />
+          
+          <KPICard
+            title="Avg Reconciliation"
+            value={`${avgReconciliation.toFixed(1)}%`}
+            subtitle="+0.3% from yesterday"
+            trend="up"
+            icon={
+              <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-[#5671B0]/10">
+                <TrendingUp className="w-6 h-6 text-[#5671B0]" />
+              </div>
+            }
+          />
+          
+          <KPICard
+            title="Items Under Review"
+            value={totalUnderReview.toLocaleString()}
+            subtitle={`Across ${chainsWithReview} chains`}
+            icon={
+              <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-[#5671B0]/10">
+                <BarChart3 className="w-6 h-6 text-[#5671B0]" />
+              </div>
+            }
+          />
+        </div>
+
+        {/* Button Row */}
         <div className="flex gap-3">
-          <Button variant="outline" size="lg">
+          <Button variant="outline" className="border-[#E2E8F0]">
             <Download className="w-4 h-4 mr-2" />
             Export to ERP
           </Button>
-          <Button size="lg" className="bg-primary hover:bg-primary/90">
+          <Button variant="outline" className="border-[#E2E8F0]">
             <FileText className="w-4 h-4 mr-2" />
+            View Reports
+          </Button>
+          <Button variant="outline" className="border-[#E2E8F0]">
+            <FileCheck className="w-4 h-4 mr-2" />
             Generate Audit Snapshot
           </Button>
+          <Button variant="outline" className="border-[#E2E8F0]">
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Refresh All Chains
+          </Button>
         </div>
-      </div>
-
-      {/* Summary Widget */}
-      <Card className="glass-panel rounded-2xl p-6">
-        <h2 className="text-lg font-semibold mb-4">Reconciliation Summary</h2>
-        <div className="flex items-center gap-8">
-          <div className="flex-1">
-            <div className="text-sm text-muted-foreground mb-2">Overall Progress</div>
-            <div className="text-3xl font-semibold text-success mb-3">
-              {Math.round(totalConfirmed)}% Confirmed
-            </div>
-            <div className="h-3 bg-muted rounded-full overflow-hidden">
-              <div className="h-full flex">
-                <div
-                  className="bg-success"
-                  style={{ width: `${totalConfirmed}%` }}
-                />
-                <div
-                  className="bg-warning"
-                  style={{ width: `${(100 - totalConfirmed) * 0.7}%` }}
-                />
-                <div
-                  className="bg-destructive"
-                  style={{ width: `${(100 - totalConfirmed) * 0.3}%` }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-6">
-            <div>
-              <div className="text-sm text-muted-foreground mb-1">Confirmed</div>
-              <div className="text-2xl font-semibold text-success">
-                {Math.round(totalConfirmed)}%
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-muted-foreground mb-1">Pending</div>
-              <div className="text-2xl font-semibold text-warning">
-                {totalPending} chains
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-muted-foreground mb-1">Under Review</div>
-              <div className="text-2xl font-semibold text-destructive">
-                {totalUnderReview} chains
-              </div>
-            </div>
-          </div>
-        </div>
-      </Card>
 
       {/* Chain Reconciliation Table */}
-      <Card className="glass-panel rounded-2xl overflow-hidden">
+      <Card className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-muted/50">
+            <thead className="bg-[#F8FAFC]">
               <tr>
-                <th className="text-left px-6 py-4 text-sm font-semibold">Chain</th>
-                <th className="text-left px-6 py-4 text-sm font-semibold">Assets</th>
-                <th className="text-left px-6 py-4 text-sm font-semibold">Confirmed</th>
-                <th className="text-left px-6 py-4 text-sm font-semibold">Pending</th>
-                <th className="text-left px-6 py-4 text-sm font-semibold">Under Review</th>
-                <th className="text-left px-6 py-4 text-sm font-semibold">Last Verified</th>
-                <th className="text-left px-6 py-4 text-sm font-semibold">Risk</th>
-                <th className="text-left px-6 py-4 text-sm font-semibold">Reconciliation</th>
+                <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Chain</th>
+                <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Asset</th>
+                <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Confirmed</th>
+                <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Pending</th>
+                <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Under Review</th>
+                <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Last Verified</th>
+                <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Reconciliation Level</th>
+                <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Risk</th>
+                <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {chainData.map((chain, i) => (
+              {chainData.map((chain) => (
                 <>
                   <tr
                     key={chain.chain}
-                    className="border-t border-border hover:bg-muted/30 transition-colors"
+                    className="border-t border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors"
                   >
-                    <td className="px-6 py-4 text-sm font-medium">{chain.chain}</td>
-                    <td className="px-6 py-4 text-sm text-muted-foreground">{chain.asset}</td>
-                    <td className="px-6 py-4 text-sm font-semibold text-success">{chain.confirmed}</td>
-                    <td className="px-6 py-4 text-sm text-warning">{chain.pending}</td>
-                    <td className="px-6 py-4 text-sm text-destructive">{chain.underReview}</td>
-                    <td className="px-6 py-4 text-sm text-muted-foreground">{chain.lastVerified}</td>
-                    <td className="px-6 py-4">
-                      <StatusBadge status={chain.risk}>
-                        {chain.risk.toUpperCase()}
-                      </StatusBadge>
-                    </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="flex-1">
-                          <div className="h-2 bg-muted rounded-full overflow-hidden">
+                        <div className="w-8 h-8 rounded-full bg-[#5671B0]/10 flex items-center justify-center">
+                          <span className="text-[#5671B0] text-xs font-semibold">
+                            {chain.chain.substring(0, 2).toUpperCase()}
+                          </span>
+                        </div>
+                        <span className="text-[14px] font-medium text-[#111827]">{chain.chain}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-[14px] text-[#6B7280]">{chain.asset}</td>
+                    <td className="px-6 py-4 text-[14px] font-medium text-[#2563EB]">{chain.confirmed}</td>
+                    <td className="px-6 py-4 text-[14px] text-[#5671B0]">{chain.pending}</td>
+                    <td className="px-6 py-4 text-[14px] text-[#6B7280]">{chain.underReview}</td>
+                    <td className="px-6 py-4 text-[14px] text-[#6B7280]">{chain.lastVerified}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1 max-w-[120px]">
+                          <div className="h-2 bg-[#DCE6FF] rounded-full overflow-hidden">
                             <div
-                              className={`h-full transition-all duration-500 ${
-                                chain.reconciliation >= 95
-                                  ? "bg-success"
-                                  : chain.reconciliation >= 85
-                                  ? "bg-warning"
-                                  : "bg-destructive"
-                              }`}
+                              className="h-full bg-gradient-to-r from-[#5671B0] to-[#2563EB] transition-all duration-500"
                               style={{ width: `${chain.reconciliation}%` }}
                             />
                           </div>
                         </div>
-                        <span className="text-sm font-medium w-12 text-right">
+                        <span className="text-[13px] font-semibold text-[#111827] w-12 text-right">
                           {chain.reconciliation}%
                         </span>
                       </div>
                     </td>
+                    <td className="px-6 py-4">
+                      <StatusBadge status={`${chain.risk}-risk` as any}>
+                        {chain.risk === "low" ? "Low" : chain.risk === "medium" ? "Medium" : "High"}
+                      </StatusBadge>
+                    </td>
+                    <td className="px-6 py-4">
+                      <Button variant="outline" size="sm" className="border-[#E2E8F0] text-[#5671B0] hover:bg-[#5671B0]/5">
+                        Details
+                      </Button>
+                    </td>
                   </tr>
                   {chain.networkNote && (
-                    <tr className="border-t border-border bg-warning/5">
-                      <td colSpan={8} className="px-6 py-3">
-                        <div className="flex items-center gap-2 text-sm text-warning-foreground">
-                          <AlertTriangle className="w-4 h-4" />
-                          <span className="font-medium">Anomaly Detected:</span>
-                          <span>{chain.networkNote}</span>
-                        </div>
+                    <tr className="border-t border-[#E2E8F0] bg-[#FFF8E1]">
+                      <td colSpan={9} className="px-6 py-3">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="flex items-center gap-2 text-[13px] text-[#996633] cursor-help">
+                              <AlertTriangle className="w-4 h-4" />
+                              <span className="font-medium">Anomaly Detected:</span>
+                              <span>{chain.networkNote}</span>
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Network congestion detected. Reconciliation delay.</p>
+                          </TooltipContent>
+                        </Tooltip>
                       </td>
                     </tr>
                   )}
@@ -220,28 +261,45 @@ export default function Reconciliation() {
         </div>
       </Card>
 
-      {/* Chain Heatmap Visualization */}
-      <Card className="glass-panel rounded-2xl p-6">
-        <h2 className="text-lg font-semibold mb-6">Chain Health Heatmap</h2>
-        <div className="grid grid-cols-5 gap-4">
-          {chainData.map((chain) => (
-            <div
-              key={chain.chain}
-              className={`rounded-xl p-4 transition-all duration-300 cursor-pointer hover:-translate-y-1 ${
-                chain.reconciliation >= 95
-                  ? "bg-success/10 border-2 border-success/20"
-                  : chain.reconciliation >= 85
-                  ? "bg-warning/10 border-2 border-warning/20"
-                  : "bg-destructive/10 border-2 border-destructive/20"
-              }`}
-            >
-              <div className="text-sm font-medium mb-2">{chain.chain}</div>
-              <div className="text-2xl font-bold mb-1">{chain.reconciliation}%</div>
-              <div className="text-xs text-muted-foreground">{chain.lastVerified}</div>
-            </div>
-          ))}
+      {/* Blockchain House Map */}
+      <Card className="bg-white rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
+        <h2 className="text-[18px] font-semibold text-[#111827] mb-6">Blockchain House Map</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {chainData.map((chain) => {
+            const hasAnomaly = chain.reconciliation < 95 || chain.networkNote;
+            return (
+              <Tooltip key={chain.chain}>
+                <TooltipTrigger asChild>
+                  <div
+                    className={`rounded-xl p-4 transition-all duration-300 cursor-pointer hover:-translate-y-1 border-2 ${
+                      hasAnomaly
+                        ? "bg-[#FFF8E1] border-[#FFF8E1]"
+                        : "bg-[#F0F4FF] border-[#DCE6FF]"
+                    }`}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-[#5671B0]/15 flex items-center justify-center mb-3">
+                      <span className="text-[#5671B0] text-sm font-bold">
+                        {chain.chain.substring(0, 2).toUpperCase()}
+                      </span>
+                    </div>
+                    <div className="text-[13px] font-semibold text-[#111827] mb-1">{chain.chain}</div>
+                    <div className="text-[20px] font-bold text-[#2563EB] mb-1">
+                      {chain.reconciliation}%
+                    </div>
+                    <div className="text-[11px] text-[#6B7280]">{chain.lastVerified}</div>
+                  </div>
+                </TooltipTrigger>
+                {hasAnomaly && chain.networkNote && (
+                  <TooltipContent>
+                    <p>{chain.networkNote}</p>
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            );
+          })}
         </div>
       </Card>
-    </div>
+      </div>
+    </TooltipProvider>
   );
 }

@@ -1,11 +1,12 @@
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 interface KPICardProps {
   title: string;
   value: string | number;
   subtitle?: string;
-  icon?: LucideIcon;
+  icon?: LucideIcon | ReactNode;
   trend?: "up" | "down" | "stable";
   trendValue?: string;
   status?: "success" | "warning" | "error" | "neutral";
@@ -37,9 +38,11 @@ export default function KPICard({
         <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
           {title}
         </h3>
-        {Icon && (
+        {Icon && typeof Icon === 'function' ? (
           <Icon className="w-5 h-5" style={{ color: iconColor }} />
-        )}
+        ) : Icon ? (
+          <>{Icon}</>
+        ) : null}
       </div>
 
       <div className="space-y-2">
