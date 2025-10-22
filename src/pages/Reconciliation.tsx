@@ -1,4 +1,4 @@
-import { Download, FileText, AlertTriangle, TrendingUp, RefreshCw, BarChart3, FileCheck, Boxes } from "lucide-react";
+import { Download, FileText, AlertTriangle, TrendingUp, RefreshCw, BarChart3, FileCheck, Boxes, RefreshCcw, FileSearch, Hexagon, Circle, Zap, Triangle, Network } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import KPICard from "@/components/KPICard";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,27 @@ interface ChainData {
   networkStatus: "operational" | "delayed" | "degraded" | "offline";
   assetsTracked: number;
 }
+
+const getChainIcon = (chainName: string) => {
+  const iconProps = { className: "w-5 h-5 text-[#1E3A8A]", strokeWidth: 2 };
+  
+  switch (chainName) {
+    case "Ethereum":
+      return <Hexagon {...iconProps} />;
+    case "Bitcoin":
+      return <Circle {...iconProps} />;
+    case "Solana":
+      return <Zap {...iconProps} />;
+    case "Polygon":
+      return <Hexagon {...iconProps} fill="currentColor" fillOpacity={0.2} />;
+    case "Avalanche":
+      return <Triangle {...iconProps} />;
+    case "Arbitrum":
+      return <Network {...iconProps} />;
+    default:
+      return <Circle {...iconProps} />;
+  }
+};
 
 const chainData: ChainData[] = [
   {
@@ -129,7 +150,7 @@ export default function Reconciliation() {
             subtitle={`${operationalChains} operational • ${chainsWithIssues} has issue`}
             icon={
               <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#E8EEFA]">
-                <Boxes className="w-6 h-6 text-[#2563EB]" />
+                <Boxes className="w-6 h-6 text-[#1E3A8A]" strokeWidth={2} />
               </div>
             }
           />
@@ -140,8 +161,8 @@ export default function Reconciliation() {
             subtitle="+0.3% from yesterday"
             trend="up"
             icon={
-              <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-[#5671B0]/10">
-                <TrendingUp className="w-6 h-6 text-[#5671B0]" />
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#E8EEFA]">
+                <RefreshCcw className="w-6 h-6 text-[#1E3A8A]" strokeWidth={2} />
               </div>
             }
           />
@@ -151,8 +172,8 @@ export default function Reconciliation() {
             value={totalUnderReview.toLocaleString()}
             subtitle={`Across ${chainsWithReview} chains`}
             icon={
-              <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-[#5671B0]/10">
-                <BarChart3 className="w-6 h-6 text-[#5671B0]" />
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#E8EEFA]">
+                <FileSearch className="w-6 h-6 text-[#1E3A8A]" strokeWidth={2} />
               </div>
             }
           />
@@ -204,10 +225,8 @@ export default function Reconciliation() {
                   >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-[#5671B0]/10 flex items-center justify-center">
-                          <span className="text-[#5671B0] text-xs font-semibold">
-                            {chain.chain.substring(0, 2).toUpperCase()}
-                          </span>
+                        <div className="flex items-center justify-center">
+                          {getChainIcon(chain.chain)}
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span className="text-[14px] font-medium text-[#111827]">{chain.chain}</span>
