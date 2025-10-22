@@ -212,10 +212,10 @@ export default function Compliance() {
 
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-[180px] bg-white border-[#E2E8F0] h-10">
-            <SelectValue placeholder="All Statuses" />
+            <SelectValue placeholder="All Alert Statuses" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
+            <SelectItem value="all">All Alert Statuses</SelectItem>
             <SelectItem value="under-review">Under Review</SelectItem>
             <SelectItem value="cleared">Cleared</SelectItem>
             <SelectItem value="blocked">Blocked</SelectItem>
@@ -302,8 +302,8 @@ export default function Compliance() {
             {/* Row 4: Footer Row - Risk Badge (left) + Responsible/ETA (right) */}
             <div className="flex items-center justify-between mb-5">
               <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
-                {complianceCase.riskLevel === "low" ? "Low Risk" : 
-                 complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
+                {complianceCase.riskLevel === "low" ? "LOW RISK" : 
+                 complianceCase.riskLevel === "medium" ? "MEDIUM RISK" : "HIGH RISK"}
               </StatusBadge>
               <div className="text-right">
                 <div className="text-[13px] font-medium text-[#111827]">{complianceCase.assignedTo}</div>
@@ -360,8 +360,8 @@ export default function Compliance() {
                   <div>
                     <div className="text-sm text-muted-foreground mb-1">Risk Level</div>
                     <StatusBadge status={`${selectedCase.riskLevel}-risk` as any}>
-                      {selectedCase.riskLevel === "low" ? "Low Risk" : 
-                       selectedCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
+                      {selectedCase.riskLevel === "low" ? "LOW RISK" : 
+                       selectedCase.riskLevel === "medium" ? "MEDIUM RISK" : "HIGH RISK"}
                     </StatusBadge>
                   </div>
                   <div>
