@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Shield, AlertCircle, CheckCircle, Clock, User, TrendingUp } from "lucide-react";
+import { AlertCircle, CheckCircle, Clock, TrendingUp, Copy, ExternalLink, Search } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -17,9 +17,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 interface ComplianceCase {
   id: string;
+  title: string;
+  subtitle: string;
+  address: string;
+  description: string;
   reason: string;
   type: string;
   riskLevel: "low" | "medium" | "high";
@@ -37,6 +42,10 @@ interface ComplianceCase {
 const mockCases: ComplianceCase[] = [
   {
     id: "CMP-2024-015",
+    title: "KYT Alert",
+    subtitle: "Know Your Transaction",
+    address: "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+    description: "Destination address was created less than 24 hours ago. Currently analyzing transaction patterns.",
     reason: "New address under 24h old",
     type: "KYT",
     riskLevel: "medium",
@@ -60,6 +69,10 @@ const mockCases: ComplianceCase[] = [
   },
   {
     id: "CMP-2024-014",
+    title: "Limit Breach",
+    subtitle: "Cross-border Transaction",
+    address: "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
+    description: "Transaction exceeded standard cross-border limit but was pre-approved by compliance committee.",
     reason: "Cross-border transaction limit",
     type: "Limit Breach",
     riskLevel: "low",
@@ -79,6 +92,10 @@ const mockCases: ComplianceCase[] = [
   },
   {
     id: "CMP-2024-013",
+    title: "Sanctions Alert",
+    subtitle: "OFAC Screening",
+    address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    description: "Counterparty name shows 85% similarity to sanctioned entity. Transaction blocked pending Risk Committee review.",
     reason: "Sanctions list match (0.85 similarity)",
     type: "Sanctions",
     riskLevel: "high",
@@ -100,14 +117,43 @@ const mockCases: ComplianceCase[] = [
       "Legal review required before clearance"
     ]
   },
+  {
+    id: "CMP-2024-012",
+    title: "AML Flag",
+    subtitle: "Anti-Money Laundering",
+    address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    description: "Multiple rapid transactions detected from single source. Pattern analysis in progress.",
+    reason: "Unusual transaction velocity",
+    type: "AML",
+    riskLevel: "medium",
+    status: "under-review",
+    assignedTo: "Sarah Chen",
+    avatar: "SC",
+    eta: "~4h",
+    confidence: 68,
+    recommendation: "review",
+    details: "Multiple rapid transactions detected from single source. Pattern analysis in progress.",
+    timeline: [
+      { time: "11:20", action: "AML screening", result: "Pattern detected" },
+      { time: "11:25", action: "Source verification initiated", result: "Pending" },
+    ],
+    nextSteps: [
+      "Complete transaction velocity analysis",
+      "Verify source wallet legitimacy",
+      "Check against known mixing patterns"
+    ]
+  },
 ];
 
 export default function Compliance() {
   const [selectedCase, setSelectedCase] = useState<ComplianceCase | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [riskFilter, setRiskFilter] = useState<string>("all");
 
   const filteredCases = mockCases.filter(c => {
+    if (searchQuery && !c.address.toLowerCase().includes(searchQuery.toLowerCase()) && 
+        !c.reason.toLowerCase().includes(searchQuery.toLowerCase())) return false;
     if (statusFilter !== "all" && c.status !== statusFilter) return false;
     if (riskFilter !== "all" && c.riskLevel !== riskFilter) return false;
     return true;
@@ -132,13 +178,23 @@ export default function Compliance() {
       </div>
 
       {/* Filters */}
-      <div className="flex gap-4">
+      <div className="flex gap-4 items-center">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            placeholder="Search by address or reason..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 glass-panel"
+          />
+        </div>
+
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-48 glass-panel">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="all">All</SelectItem>
             <SelectItem value="under-review">Under Review</SelectItem>
             <SelectItem value="cleared">Cleared</SelectItem>
             <SelectItem value="blocked">Blocked</SelectItem>
@@ -150,85 +206,106 @@ export default function Compliance() {
             <SelectValue placeholder="Risk Level" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Risk Levels</SelectItem>
-            <SelectItem value="low">Low Risk</SelectItem>
-            <SelectItem value="medium">Medium Risk</SelectItem>
-            <SelectItem value="high">High Risk</SelectItem>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="low">Low</SelectItem>
+            <SelectItem value="medium">Medium</SelectItem>
+            <SelectItem value="high">High</SelectItem>
           </SelectContent>
         </Select>
+
+        <Button variant="outline" className="ml-auto">
+          Export All
+        </Button>
       </div>
 
       {/* Compliance Cases Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {filteredCases.map((complianceCase) => (
           <Card
             key={complianceCase.id}
-            className="glass-panel-hover rounded-2xl p-6 cursor-pointer"
+            className="glass-panel-hover rounded-2xl p-6 cursor-pointer flex flex-col"
             onClick={() => setSelectedCase(complianceCase)}
           >
-            {/* Header */}
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
-                  {complianceCase.avatar}
-                </div>
-                <div>
-                  <div className="font-medium">{complianceCase.assignedTo}</div>
-                  <div className="text-xs text-muted-foreground">Compliance Officer</div>
-                </div>
+            {/* Header - Title and Risk Badge */}
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex-1">
+                <h3 className="text-[20px] font-medium mb-1">{complianceCase.title}</h3>
+                <p className="text-[16px] font-bold text-foreground">{complianceCase.subtitle}</p>
               </div>
               <StatusBadge status={complianceCase.riskLevel}>
                 {complianceCase.riskLevel.toUpperCase()}
               </StatusBadge>
             </div>
 
-            {/* Case Details */}
-            <div className="space-y-3">
+            {/* Address */}
+            <div className="mb-3">
+              <div className="text-xs text-muted-foreground mb-1">Address</div>
+              <div className="flex items-center gap-2">
+                <code className="text-sm font-mono bg-muted px-2 py-1 rounded flex-1 truncate">
+                  {complianceCase.address}
+                </code>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-8 w-8 shrink-0"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigator.clipboard.writeText(complianceCase.address);
+                  }}
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-8 w-8 shrink-0"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.open(`https://etherscan.io/address/${complianceCase.address}`, '_blank');
+                  }}
+                >
+                  <ExternalLink className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Description */}
+            <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+              {complianceCase.description}
+            </p>
+
+            {/* Responsible & ETA */}
+            <div className="flex items-center justify-between mb-4 pt-3 border-t">
               <div>
-                <div className="text-sm font-medium mb-1">{complianceCase.reason}</div>
-                <div className="text-xs text-muted-foreground">{complianceCase.type}</div>
+                <div className="text-xs text-muted-foreground mb-1">Responsible</div>
+                <div className="text-sm font-medium">{complianceCase.assignedTo}</div>
               </div>
+              <div className="text-right">
+                <div className="text-xs text-muted-foreground mb-1">ETA</div>
+                <div className="text-sm font-medium">{complianceCase.eta}</div>
+              </div>
+            </div>
 
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Case ID</span>
-                <span className="font-mono">{complianceCase.id}</span>
-              </div>
-
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Status</span>
-                <StatusBadge status={complianceCase.status}>
-                  {complianceCase.status.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
-                </StatusBadge>
-              </div>
-
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">ETA</span>
-                <span className="flex items-center gap-1">
-                  <Clock className="w-3 h-3" />
-                  {complianceCase.eta}
-                </span>
-              </div>
-
-              {/* Confidence & Recommendation */}
-              <div className="pt-3 border-t space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Confidence</span>
-                  <span className="font-semibold">{complianceCase.confidence}%</span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-secondary to-glow transition-all duration-500"
-                    style={{ width: `${complianceCase.confidence}%` }}
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 pt-2">
-                {getRecommendationIcon(complianceCase.recommendation)}
-                <span className="text-sm font-medium capitalize">
-                  {complianceCase.recommendation}
-                </span>
-              </div>
+            {/* Action Buttons */}
+            <div className="flex gap-3 mt-auto">
+              <Button
+                className="flex-1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedCase(complianceCase);
+                }}
+              >
+                Resolve Case
+              </Button>
+              <Button
+                variant="secondary"
+                className="flex-1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                Export Log
+              </Button>
             </div>
           </Card>
         ))}
@@ -278,6 +355,25 @@ export default function Compliance() {
                   Verified through TRM Labs API and Chainalysis network.
                 </p>
               </div>
+
+              {/* Recommendation */}
+              <Card className="glass-panel p-4 border-l-4 border-l-glow">
+                <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                  Recommendation
+                </h3>
+                <div className="flex items-center gap-2">
+                  {getRecommendationIcon(selectedCase.recommendation)}
+                  <span className="text-lg font-semibold capitalize">
+                    {selectedCase.recommendation}
+                  </span>
+                </div>
+                <div className="mt-2 text-sm text-muted-foreground">
+                  Confidence: <span className="font-semibold text-foreground">{selectedCase.confidence}%</span>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2 italic">
+                  Based on 3 KYT sources and address history analysis
+                </p>
+              </Card>
 
               {/* Timeline */}
               <div>
