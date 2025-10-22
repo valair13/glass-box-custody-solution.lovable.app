@@ -10,11 +10,11 @@ interface StatusBadgeProps {
 
 const statusStyles = {
   "initiated": "bg-blue-100 text-blue-700 border-blue-200",
-  "approvals": "bg-[#E6EEF9] text-[#1E3A8A] border-transparent",
-  "hsm-signed": "bg-[#7CA6F2] text-[#1E3A8A] border-transparent",
-  "broadcasted": "bg-[#3C6FE0] text-[#1E3A8A] border-transparent",
-  "confirmed": "bg-[#264FAD] text-[#1E3A8A] border-transparent",
-  "settled": "bg-[#1E3A8A] text-[#1E3A8A] border-transparent",
+  "approvals": "bg-[#E6EEF9] text-white border-transparent",
+  "hsm-signed": "bg-[#7CA6F2] text-white border-transparent",
+  "broadcasted": "bg-[#3C6FE0] text-white border-transparent",
+  "confirmed": "bg-[#264FAD] text-white border-transparent",
+  "settled": "bg-[#1E3A8A] text-white border-transparent",
   "under-review": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
   "cleared": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
   "blocked": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
@@ -22,9 +22,9 @@ const statusStyles = {
   "medium": "bg-warning/10 text-warning-foreground border-warning/20",
   "high": "bg-destructive/10 text-destructive border-destructive/20",
   "pending": "bg-muted text-muted-foreground border-border",
-  "low-risk": "bg-[#DCFCE7] text-[#166534] border-transparent",
-  "medium-risk": "bg-[#FEF3C7] text-[#92400E] border-transparent",
-  "high-risk": "bg-[#FEE2E2] text-[#B91C1C] border-transparent",
+  "low-risk": "bg-[#E8F6EE] text-[#166534] border-transparent",
+  "medium-risk": "bg-[#F9EED2] text-[#946C1E] border-transparent",
+  "high-risk": "bg-[#F8D9D9] text-[#A32323] border-transparent",
 };
 
 export default function StatusBadge({ status, children, className }: StatusBadgeProps) {
@@ -33,8 +33,9 @@ export default function StatusBadge({ status, children, className }: StatusBadge
   return (
     <span
       className={cn(
-        "inline-flex items-center justify-center rounded-full font-normal leading-[1.2]",
-        "text-[12px] px-3 h-[28px]",
+        "inline-flex items-center justify-center rounded-full font-medium leading-[1.2]",
+        isRiskBadge ? "text-[13px]" : "text-[12px]",
+        "px-3 h-[28px]",
         statusStyles[status],
         className
       )}
