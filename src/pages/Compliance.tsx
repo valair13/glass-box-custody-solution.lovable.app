@@ -191,33 +191,31 @@ export default function Compliance() {
   return (
     <div className="p-8 space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-heading mb-2">Glass-box Compliance</h1>
-          <p className="text-muted-foreground">
-            Visible, traceable, and instructive compliance operations
-          </p>
-        </div>
+      <div className="mb-6">
+        <h1 className="text-[32px] font-semibold text-[#111827] mb-2">Glass-box Compliance</h1>
+        <p className="text-[15px] text-[#6B7280]">
+          Comprehensive compliance monitoring with full audit trail and reasoning transparency.
+        </p>
       </div>
 
       {/* Filters */}
-      <div className="flex gap-4 items-center">
+      <div className="flex gap-3 items-center mb-8">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#6B7280]" />
           <Input
-            placeholder="Search by address or reason..."
+            placeholder="Search address or reason..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 glass-panel"
+            className="pl-10 bg-white border-[#E2E8F0] h-10"
           />
         </div>
 
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-48 glass-panel">
-            <SelectValue placeholder="Status" />
+          <SelectTrigger className="w-[180px] bg-white border-[#E2E8F0] h-10">
+            <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="all">All Statuses</SelectItem>
             <SelectItem value="under-review">Under Review</SelectItem>
             <SelectItem value="cleared">Cleared</SelectItem>
             <SelectItem value="blocked">Blocked</SelectItem>
@@ -225,18 +223,18 @@ export default function Compliance() {
         </Select>
 
         <Select value={riskFilter} onValueChange={setRiskFilter}>
-          <SelectTrigger className="w-48 glass-panel">
-            <SelectValue placeholder="Risk Level" />
+          <SelectTrigger className="w-[180px] bg-white border-[#E2E8F0] h-10">
+            <SelectValue placeholder="All Risk Levels" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="low">Low</SelectItem>
-            <SelectItem value="medium">Medium</SelectItem>
-            <SelectItem value="high">High</SelectItem>
+            <SelectItem value="all">All Risk Levels</SelectItem>
+            <SelectItem value="low">Low Risk</SelectItem>
+            <SelectItem value="medium">Medium Risk</SelectItem>
+            <SelectItem value="high">High Risk</SelectItem>
           </SelectContent>
         </Select>
 
-        <Button variant="outline" className="ml-auto">
+        <Button variant="outline" className="ml-auto h-10 border-[#E2E8F0]">
           Export All
         </Button>
       </div>
@@ -246,38 +244,37 @@ export default function Compliance() {
         {filteredCases.map((complianceCase) => (
           <Card
             key={complianceCase.id}
-            className="glass-panel-hover rounded-2xl p-6 cursor-pointer flex flex-col shadow-[0_2px_8px_rgba(0,0,0,0.05)]"
+            className="bg-white rounded-2xl p-6 cursor-pointer flex flex-col shadow-[0_2px_8px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-shadow relative"
             onClick={() => setSelectedCase(complianceCase)}
           >
-            {/* Header - Title with Badges horizontally aligned */}
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex-1 pr-4">
-                <h3 className="text-[18px] font-semibold text-[#111827] mb-1">{complianceCase.title}</h3>
-                <p className="text-[15px] text-[#334155]">{complianceCase.subtitle}</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <StatusBadge status={complianceCase.status}>
-                  {complianceCase.status === "under-review" ? "Under Review" : 
-                   complianceCase.status === "cleared" ? "Cleared" : "Blocked"}
-                </StatusBadge>
-                <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
-                  {complianceCase.riskLevel === "low" ? "Low Risk" : 
-                   complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
-                </StatusBadge>
-              </div>
+            {/* Status and Risk Badges - Top Right, Stacked Vertically */}
+            <div className="absolute top-6 right-6 flex flex-col gap-2">
+              <StatusBadge status={complianceCase.status}>
+                {complianceCase.status === "under-review" ? "Under Review" : 
+                 complianceCase.status === "cleared" ? "Cleared" : "Blocked"}
+              </StatusBadge>
+              <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
+                {complianceCase.riskLevel === "low" ? "Low Risk" : 
+                 complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
+              </StatusBadge>
+            </div>
+
+            {/* Header - Title and Subtitle */}
+            <div className="pr-32 mb-3">
+              <h3 className="text-[18px] font-semibold text-[#111827] mb-2">{complianceCase.title}</h3>
+              <p className="text-[15px] text-[#334155]">{complianceCase.subtitle}</p>
             </div>
 
             {/* Address */}
-            <div className="mb-4">
-              <div className="text-xs text-[#6B7280] mb-2">Address</div>
-              <div className="flex items-center gap-2">
-                <code className="text-sm font-mono bg-[#F3F5F9] border border-[#E2E8F0] px-4 py-2.5 rounded-lg flex-1 truncate text-[#111827]">
+            <div className="mb-2">
+              <div className="flex items-center gap-2 bg-[#F3F5F9] border border-[#E2E8F0] px-4 py-2.5 rounded-lg">
+                <code className="text-[14px] font-mono flex-1 truncate text-[#111827]">
                   {complianceCase.address}
                 </code>
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="h-9 w-9 shrink-0 text-[#6B7280] hover:text-[#111827]"
+                  className="h-8 w-8 shrink-0 text-[#6B7280] hover:text-[#111827] hover:bg-transparent"
                   onClick={(e) => {
                     e.stopPropagation();
                     navigator.clipboard.writeText(complianceCase.address);
@@ -288,7 +285,7 @@ export default function Compliance() {
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="h-9 w-9 shrink-0 text-[#6B7280] hover:text-[#111827]"
+                  className="h-8 w-8 shrink-0 text-[#6B7280] hover:text-[#111827] hover:bg-transparent"
                   onClick={(e) => {
                     e.stopPropagation();
                     window.open(`https://etherscan.io/address/${complianceCase.address}`, '_blank');
@@ -300,12 +297,15 @@ export default function Compliance() {
             </div>
 
             {/* Description */}
-            <p className="text-[14px] leading-[150%] text-[#6B7280] mb-5 line-clamp-2">
+            <p className="text-[14px] leading-[150%] text-[#334155] mb-6 line-clamp-2">
               {complianceCase.description}
             </p>
 
+            {/* Spacer to push footer content to bottom */}
+            <div className="flex-1" />
+
             {/* Responsible & ETA */}
-            <div className="flex items-center justify-between mb-2 pt-4 border-t border-[#E2E8F0]">
+            <div className="flex items-center justify-between mb-4 pt-4 border-t border-[#E2E8F0]">
               <div>
                 <div className="text-[13px] text-[#6B7280] mb-1">Responsible</div>
                 <div className="text-[14px] font-medium text-[#111827]">{complianceCase.assignedTo}</div>
@@ -317,18 +317,16 @@ export default function Compliance() {
             </div>
 
             {/* Action Button */}
-            <div className="mt-2">
-              <Button
-                className="w-full disabled:opacity-40 disabled:cursor-not-allowed"
-                disabled={complianceCase.status === "cleared" || complianceCase.status === "blocked"}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedCase(complianceCase);
-                }}
-              >
-                Resolve
-              </Button>
-            </div>
+            <Button
+              className="w-full h-10 disabled:opacity-40 disabled:cursor-not-allowed bg-[#1E3A8A] hover:bg-[#1E3A8A]/90"
+              disabled={complianceCase.status === "cleared" || complianceCase.status === "blocked"}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedCase(complianceCase);
+              }}
+            >
+              Resolve Case
+            </Button>
           </Card>
         ))}
       </div>
