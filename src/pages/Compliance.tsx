@@ -244,13 +244,13 @@ export default function Compliance() {
         {filteredCases.map((complianceCase) => (
           <Card
             key={complianceCase.id}
-            className="bg-white rounded-2xl p-6 cursor-pointer flex flex-col shadow-[0_2px_8px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-shadow"
+            className="bg-white rounded-2xl p-5 cursor-pointer flex flex-col shadow-[0_2px_8px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-shadow"
             onClick={() => setSelectedCase(complianceCase)}
           >
             {/* Row 1: Header Row - Title/Subtitle (left) + Risk Badge (right) */}
-            <div className="flex items-start justify-between mb-3">
+            <div className="flex items-start justify-between mb-2">
               <div className="flex-1">
-                <h3 className="text-[18px] font-semibold text-[#111827] mb-2">{complianceCase.title}</h3>
+                <h3 className="text-[18px] font-semibold text-[#111827] mb-1">{complianceCase.title}</h3>
                 <p className="text-[15px] text-[#334155]">{complianceCase.subtitle}</p>
               </div>
               <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
@@ -260,8 +260,8 @@ export default function Compliance() {
             </div>
 
             {/* Row 2: Address Field */}
-            <div className="mb-3">
-              <div className="text-[13px] text-[#6B7280] mb-2">Address</div>
+            <div className="mb-2">
+              <div className="text-[13px] text-[#6B7280] mb-1">Address</div>
               <div className="flex items-center gap-2 bg-[#F3F5F9] border border-[#E2E8F0] px-3 py-2 rounded-lg">
                 <code className="text-[14px] font-mono flex-1 truncate text-[#111827]">
                   {complianceCase.address}
@@ -292,30 +292,26 @@ export default function Compliance() {
             </div>
 
             {/* Row 3: Description */}
-            <p className="text-[14px] leading-[150%] text-[#475569] mb-3">
+            <p className="text-[14px] leading-[150%] text-[#475569] mb-2">
               {complianceCase.description}
             </p>
 
             {/* Horizontal Divider */}
-            <div className="border-t border-[#E2E8F0] mb-4" />
+            <div className="border-t border-[#E2E8F0] mb-3" />
 
-            {/* Row 4: Status Badge Row */}
-            <div className="flex items-center mb-4">
+            {/* Row 4: Status Badge (left) + Responsible/ETA (right) */}
+            <div className="flex items-center justify-between mb-3">
               <StatusBadge status={complianceCase.status} className="bg-[#E8EEFA] text-[#1E3A8A]">
                 {complianceCase.status === "under-review" ? "Under Review" : 
                  complianceCase.status === "cleared" ? "Cleared" : "Blocked"}
               </StatusBadge>
-            </div>
-
-            {/* Row 5: Responsible/ETA */}
-            <div className="flex justify-end mb-3">
               <div className="text-right">
                 <div className="text-[13px] font-medium text-[#111827]">{complianceCase.assignedTo}</div>
                 <div className="text-[13px] text-[#6B7280]">ETA: {complianceCase.eta}</div>
               </div>
             </div>
 
-            {/* Row 6: Action Row - Buttons */}
+            {/* Row 5: Action Row - Buttons */}
             <div className="flex items-center gap-3">
               <Button
                 className="flex-1 h-10 disabled:opacity-40 disabled:cursor-not-allowed bg-[#1E3A8A] hover:bg-[#1E3A8A]/90"
