@@ -43,12 +43,12 @@ const mockCases: ComplianceCase[] = [
   {
     id: "CMP-2024-015",
     title: "KYT Alert",
-    subtitle: "Know Your Transaction",
+    subtitle: "Sanctions Screening",
     address: "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
     description: "Destination address was created less than 24 hours ago. Currently analyzing transaction patterns.",
     reason: "New address under 24h old",
     type: "KYT",
-    riskLevel: "medium",
+    riskLevel: "high",
     status: "under-review",
     assignedTo: "Michael Torres",
     avatar: "MT",
@@ -68,13 +68,13 @@ const mockCases: ComplianceCase[] = [
     ]
   },
   {
-    id: "CMP-2024-014",
-    title: "Limit Breach",
-    subtitle: "Cross-border Transaction",
+    id: "CMP-2024-016",
+    title: "Unusual Activity",
+    subtitle: "Transaction Pattern",
     address: "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
-    description: "Transaction exceeded standard cross-border limit but was pre-approved by compliance committee.",
-    reason: "Cross-border transaction limit",
-    type: "Limit Breach",
+    description: "Transaction pattern shows unusual behavior but cleared after review by compliance team.",
+    reason: "Unusual transaction pattern",
+    type: "Pattern Analysis",
     riskLevel: "low",
     status: "cleared",
     assignedTo: "Jessica Park",
@@ -82,66 +82,89 @@ const mockCases: ComplianceCase[] = [
     eta: "Completed",
     confidence: 95,
     recommendation: "proceed",
-    details: "Transaction exceeded standard cross-border limit but was pre-approved by compliance committee.",
+    details: "Transaction pattern shows unusual behavior but cleared after review by compliance team.",
     timeline: [
-      { time: "12:30", action: "Limit breach detected", result: "Automatic hold" },
-      { time: "12:35", action: "Pre-approval check", result: "Found in registry" },
-      { time: "12:36", action: "Compliance clearance", result: "Approved" },
+      { time: "10:30", action: "Pattern detection", result: "Flagged" },
+      { time: "10:35", action: "Historical review", result: "No risk found" },
+      { time: "10:40", action: "Compliance clearance", result: "Approved" },
     ],
     nextSteps: []
   },
   {
-    id: "CMP-2024-013",
-    title: "Sanctions Alert",
-    subtitle: "OFAC Screening",
+    id: "CMP-2024-017",
+    title: "Limit Breach",
+    subtitle: "Transaction Limit",
     address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-    description: "Counterparty name shows 85% similarity to sanctioned entity. Transaction blocked pending Risk Committee review.",
-    reason: "Sanctions list match (0.85 similarity)",
-    type: "Sanctions",
-    riskLevel: "high",
-    status: "blocked",
+    description: "Transaction exceeded standard cross-border limit. Pending approval from compliance committee.",
+    reason: "Cross-border transaction limit",
+    type: "Limit Breach",
+    riskLevel: "medium",
+    status: "under-review",
     assignedTo: "David Kim",
     avatar: "DK",
-    eta: "Escalated",
+    eta: "~3h",
     confidence: 88,
-    recommendation: "escalate",
-    details: "Counterparty name shows 85% similarity to sanctioned entity. Transaction blocked pending Risk Committee review.",
+    recommendation: "review",
+    details: "Transaction exceeded standard cross-border limit. Pending approval from compliance committee.",
     timeline: [
-      { time: "09:15", action: "OFAC screening", result: "Match detected" },
-      { time: "09:16", action: "Transaction blocked", result: "Automatic hold" },
-      { time: "09:20", action: "Risk Committee notified", result: "Under investigation" },
+      { time: "12:15", action: "Limit breach detected", result: "Automatic hold" },
+      { time: "12:20", action: "Committee review assigned", result: "Under review" },
     ],
     nextSteps: [
-      "Escalate to Risk Committee",
-      "Request additional KYC documentation",
-      "Legal review required before clearance"
+      "Await compliance committee decision",
+      "Verify source of funds",
+      "Check pre-approval registry"
     ]
   },
   {
-    id: "CMP-2024-012",
-    title: "AML Flag",
-    subtitle: "Anti-Money Laundering",
+    id: "CMP-2024-018",
+    title: "Geographic Restriction",
+    subtitle: "Sanctioned Region",
     address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    description: "Multiple rapid transactions detected from single source. Pattern analysis in progress.",
-    reason: "Unusual transaction velocity",
-    type: "AML",
-    riskLevel: "medium",
-    status: "under-review",
+    description: "Counterparty located in restricted jurisdiction. Transaction blocked pending legal review.",
+    reason: "Geographic restriction violation",
+    type: "Geographic",
+    riskLevel: "high",
+    status: "blocked",
     assignedTo: "Sarah Chen",
     avatar: "SC",
-    eta: "~4h",
-    confidence: 68,
-    recommendation: "review",
-    details: "Multiple rapid transactions detected from single source. Pattern analysis in progress.",
+    eta: "Escalated",
+    confidence: 92,
+    recommendation: "escalate",
+    details: "Counterparty located in restricted jurisdiction. Transaction blocked pending legal review.",
     timeline: [
-      { time: "11:20", action: "AML screening", result: "Pattern detected" },
-      { time: "11:25", action: "Source verification initiated", result: "Pending" },
+      { time: "09:00", action: "Geographic check", result: "Restricted region detected" },
+      { time: "09:02", action: "Transaction blocked", result: "Automatic hold" },
+      { time: "09:05", action: "Legal team notified", result: "Under investigation" },
     ],
     nextSteps: [
-      "Complete transaction velocity analysis",
-      "Verify source wallet legitimacy",
-      "Check against known mixing patterns"
+      "Escalate to legal team",
+      "Review OFAC compliance",
+      "Determine permanent block status"
     ]
+  },
+  {
+    id: "CMP-2024-019",
+    title: "AML Check",
+    subtitle: "Source Verification",
+    address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    description: "Source verification completed successfully. No suspicious patterns detected.",
+    reason: "Routine AML screening",
+    type: "AML",
+    riskLevel: "low",
+    status: "cleared",
+    assignedTo: "Robert Lee",
+    avatar: "RL",
+    eta: "Completed",
+    confidence: 98,
+    recommendation: "proceed",
+    details: "Source verification completed successfully. No suspicious patterns detected.",
+    timeline: [
+      { time: "08:30", action: "AML screening initiated", result: "Started" },
+      { time: "08:35", action: "Source verification", result: "Clean record" },
+      { time: "08:38", action: "Compliance clearance", result: "Approved" },
+    ],
+    nextSteps: []
   },
 ];
 
@@ -223,7 +246,7 @@ export default function Compliance() {
         {filteredCases.map((complianceCase) => (
           <Card
             key={complianceCase.id}
-            className="glass-panel-hover rounded-2xl p-6 cursor-pointer flex flex-col"
+            className="glass-panel-hover rounded-2xl p-6 cursor-pointer flex flex-col shadow-[0_2px_8px_rgba(0,0,0,0.05)]"
             onClick={() => setSelectedCase(complianceCase)}
           >
             {/* Header - Title, Risk Badge, and Status Badge */}
