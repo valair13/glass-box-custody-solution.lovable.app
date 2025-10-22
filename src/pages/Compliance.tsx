@@ -254,8 +254,8 @@ export default function Compliance() {
                 <p className="text-[15px] text-[#334155]">{complianceCase.subtitle}</p>
               </div>
               <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
-                {complianceCase.riskLevel === "low" ? "Low Risk" : 
-                 complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
+                {complianceCase.riskLevel === "low" ? "Low" : 
+                 complianceCase.riskLevel === "medium" ? "Medium" : "High"}
               </StatusBadge>
             </div>
 
@@ -360,8 +360,8 @@ export default function Compliance() {
                   <div>
                     <div className="text-sm text-muted-foreground mb-1">Risk Level</div>
                     <StatusBadge status={`${selectedCase.riskLevel}-risk` as any}>
-                      {selectedCase.riskLevel === "low" ? "Low Risk" : 
-                       selectedCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
+                      {selectedCase.riskLevel === "low" ? "Low" : 
+                       selectedCase.riskLevel === "medium" ? "Medium" : "High"}
                     </StatusBadge>
                   </div>
                   <div>
