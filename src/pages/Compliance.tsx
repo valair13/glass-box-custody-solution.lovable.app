@@ -244,30 +244,25 @@ export default function Compliance() {
         {filteredCases.map((complianceCase) => (
           <Card
             key={complianceCase.id}
-            className="bg-white rounded-2xl p-6 cursor-pointer flex flex-col shadow-[0_2px_8px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-shadow relative"
+            className="bg-white rounded-2xl p-6 cursor-pointer flex flex-col shadow-[0_2px_8px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-shadow"
             onClick={() => setSelectedCase(complianceCase)}
           >
-            {/* Status and Risk Badges - Top Right, Stacked Vertically */}
-            <div className="absolute top-6 right-6 flex flex-col gap-2">
+            {/* Row 1: Header Row - Title/Subtitle (left) + Status Badge (right) */}
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex-1">
+                <h3 className="text-[18px] font-semibold text-[#111827] mb-2">{complianceCase.title}</h3>
+                <p className="text-[15px] text-[#334155]">{complianceCase.subtitle}</p>
+              </div>
               <StatusBadge status={complianceCase.status}>
                 {complianceCase.status === "under-review" ? "Under Review" : 
                  complianceCase.status === "cleared" ? "Cleared" : "Blocked"}
               </StatusBadge>
-              <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
-                {complianceCase.riskLevel === "low" ? "Low Risk" : 
-                 complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
-              </StatusBadge>
             </div>
 
-            {/* Header - Title and Subtitle */}
-            <div className="pr-32 mb-3">
-              <h3 className="text-[18px] font-semibold text-[#111827] mb-2">{complianceCase.title}</h3>
-              <p className="text-[15px] text-[#334155]">{complianceCase.subtitle}</p>
-            </div>
-
-            {/* Address */}
-            <div className="mb-2">
-              <div className="flex items-center gap-2 bg-[#F3F5F9] border border-[#E2E8F0] px-4 py-2.5 rounded-lg">
+            {/* Row 2: Address Field */}
+            <div className="mb-3">
+              <div className="text-[13px] text-[#6B7280] mb-2">Address</div>
+              <div className="flex items-center gap-2 bg-[#F3F5F9] border border-[#E2E8F0] px-3 py-2 rounded-lg">
                 <code className="text-[14px] font-mono flex-1 truncate text-[#111827]">
                   {complianceCase.address}
                 </code>
@@ -296,37 +291,49 @@ export default function Compliance() {
               </div>
             </div>
 
-            {/* Description */}
-            <p className="text-[14px] leading-[150%] text-[#334155] mb-6 line-clamp-2">
+            {/* Row 3: Description */}
+            <p className="text-[14px] leading-[150%] text-[#475569] mb-3">
               {complianceCase.description}
             </p>
 
-            {/* Spacer to push footer content to bottom */}
-            <div className="flex-1" />
+            {/* Horizontal Divider */}
+            <div className="border-t border-[#E2E8F0] mb-4" />
 
-            {/* Responsible & ETA */}
-            <div className="flex items-center justify-between mb-4 pt-4 border-t border-[#E2E8F0]">
-              <div>
-                <div className="text-[13px] text-[#6B7280] mb-1">Responsible</div>
-                <div className="text-[14px] font-medium text-[#111827]">{complianceCase.assignedTo}</div>
-              </div>
+            {/* Row 4: Footer Row - Risk Badge (left) + Responsible/ETA (right) */}
+            <div className="flex items-center justify-between mb-5">
+              <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
+                {complianceCase.riskLevel === "low" ? "Low Risk" : 
+                 complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
+              </StatusBadge>
               <div className="text-right">
-                <div className="text-[13px] text-[#6B7280] mb-1">ETA</div>
-                <div className="text-[14px] font-medium text-[#111827]">{complianceCase.eta}</div>
+                <div className="text-[13px] font-medium text-[#111827]">{complianceCase.assignedTo}</div>
+                <div className="text-[13px] text-[#6B7280]">ETA: {complianceCase.eta}</div>
               </div>
             </div>
 
-            {/* Action Button */}
-            <Button
-              className="w-full h-10 disabled:opacity-40 disabled:cursor-not-allowed bg-[#1E3A8A] hover:bg-[#1E3A8A]/90"
-              disabled={complianceCase.status === "cleared" || complianceCase.status === "blocked"}
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedCase(complianceCase);
-              }}
-            >
-              Resolve Case
-            </Button>
+            {/* Row 5: Action Row - Buttons */}
+            <div className="flex items-center gap-3">
+              <Button
+                className="flex-1 h-10 disabled:opacity-40 disabled:cursor-not-allowed bg-[#1E3A8A] hover:bg-[#1E3A8A]/90"
+                disabled={complianceCase.status === "cleared" || complianceCase.status === "blocked"}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedCase(complianceCase);
+                }}
+              >
+                Resolve Case
+              </Button>
+              <Button
+                variant="outline"
+                className="flex-1 h-10 border-[#E2E8F0]"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // Export log functionality
+                }}
+              >
+                Export Log
+              </Button>
+            </div>
           </Card>
         ))}
       </div>
