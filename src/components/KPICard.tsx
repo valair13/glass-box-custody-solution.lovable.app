@@ -1,6 +1,6 @@
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
+import { ReactNode, isValidElement } from "react";
 
 interface KPICardProps {
   title: string;
@@ -38,11 +38,13 @@ export default function KPICard({
         <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
           {title}
         </h3>
-        {Icon && typeof Icon === 'function' ? (
-          <Icon className="w-5 h-5" style={{ color: iconColor }} />
-        ) : Icon ? (
-          <>{Icon}</>
-        ) : null}
+        {Icon && (
+          isValidElement(Icon) ? (
+            Icon
+          ) : typeof Icon === 'function' ? (
+            <Icon className="w-5 h-5" style={{ color: iconColor }} />
+          ) : null
+        )}
       </div>
 
       <div className="space-y-2">
