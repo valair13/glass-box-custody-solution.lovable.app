@@ -9,6 +9,7 @@ import {
   Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import anchorageLogo from "@/assets/anchorage-logo-white.svg";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -27,13 +28,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Sidebar */}
       <aside className="w-64 bg-sidebar border-r border-sidebar-border flex flex-col">
         {/* Logo */}
-        <div className="p-6 border-b border-sidebar-border">
-          <h1 className="text-xl font-bold text-sidebar-foreground">
-            Anchorage Digital
-          </h1>
-          <p className="text-xs text-sidebar-foreground/70 mt-1">
-            Institutional Custody
-          </p>
+        <div className="p-6 border-b border-sidebar-border flex items-center">
+          <img 
+            src={anchorageLogo} 
+            alt="Anchorage Digital" 
+            className="h-9 w-auto"
+          />
         </div>
 
         {/* Navigation */}
