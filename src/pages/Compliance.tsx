@@ -247,16 +247,22 @@ export default function Compliance() {
             className="bg-white rounded-2xl p-6 cursor-pointer flex flex-col shadow-[0_2px_8px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-shadow"
             onClick={() => setSelectedCase(complianceCase)}
           >
-            {/* Row 1: Header Row - Title/Subtitle (left) + Status Badge (right) */}
+            {/* Row 1: Header Row - Title/Subtitle (left) + Badge (right) */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex-1">
                 <h3 className="text-[18px] font-semibold text-[#111827] mb-2">{complianceCase.title}</h3>
                 <p className="text-[15px] text-[#334155]">{complianceCase.subtitle}</p>
               </div>
-              <StatusBadge status={complianceCase.status}>
-                {complianceCase.status === "under-review" ? "Under review" : 
-                 complianceCase.status === "cleared" ? "Cleared" : "Blocked"}
-              </StatusBadge>
+              {complianceCase.status === "under-review" ? (
+                <StatusBadge status={complianceCase.status}>
+                  Under Review
+                </StatusBadge>
+              ) : (
+                <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
+                  {complianceCase.riskLevel === "low" ? "Low Risk" : 
+                   complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
+                </StatusBadge>
+              )}
             </div>
 
             {/* Row 2: Address Field */}
@@ -299,12 +305,18 @@ export default function Compliance() {
             {/* Horizontal Divider */}
             <div className="border-t border-[#E2E8F0] mb-4" />
 
-            {/* Row 4: Footer Row - Risk Badge (left) + Responsible/ETA (right) */}
+            {/* Row 4: Footer Row - Badge (left) + Responsible/ETA (right) */}
             <div className="flex items-center justify-between mb-5">
-              <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
-                {complianceCase.riskLevel === "low" ? "LOW RISK" : 
-                 complianceCase.riskLevel === "medium" ? "MEDIUM RISK" : "HIGH RISK"}
-              </StatusBadge>
+              {complianceCase.status === "under-review" ? (
+                <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
+                  {complianceCase.riskLevel === "low" ? "Low Risk" : 
+                   complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
+                </StatusBadge>
+              ) : (
+                <StatusBadge status={complianceCase.status}>
+                  {complianceCase.status === "cleared" ? "Cleared" : "Blocked"}
+                </StatusBadge>
+              )}
               <div className="text-right">
                 <div className="text-[13px] font-medium text-[#111827]">{complianceCase.assignedTo}</div>
                 <div className="text-[13px] text-[#6B7280]">ETA: {complianceCase.eta}</div>
@@ -360,8 +372,8 @@ export default function Compliance() {
                   <div>
                     <div className="text-sm text-muted-foreground mb-1">Risk Level</div>
                     <StatusBadge status={`${selectedCase.riskLevel}-risk` as any}>
-                      {selectedCase.riskLevel === "low" ? "LOW RISK" : 
-                       selectedCase.riskLevel === "medium" ? "MEDIUM RISK" : "HIGH RISK"}
+                      {selectedCase.riskLevel === "low" ? "Low Risk" : 
+                       selectedCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
                     </StatusBadge>
                   </div>
                   <div>
