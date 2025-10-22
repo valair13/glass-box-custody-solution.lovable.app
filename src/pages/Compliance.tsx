@@ -299,20 +299,20 @@ export default function Compliance() {
             {/* Horizontal Divider */}
             <div className="border-t border-[#E2E8F0] mb-4" />
 
-            {/* Row 4: Responsible/ETA */}
-            <div className="flex justify-end mb-4">
-              <div className="text-right">
-                <div className="text-[13px] font-medium text-[#111827]">{complianceCase.assignedTo}</div>
-                <div className="text-[13px] text-[#6B7280]">ETA: {complianceCase.eta}</div>
-              </div>
-            </div>
-
-            {/* Row 5: Status Badge Row */}
+            {/* Row 4: Status Badge Row */}
             <div className="flex items-center mb-4">
               <StatusBadge status={complianceCase.status} className="bg-[#E8EEFA] text-[#1E3A8A]">
                 {complianceCase.status === "under-review" ? "Under Review" : 
                  complianceCase.status === "cleared" ? "Cleared" : "Blocked"}
               </StatusBadge>
+            </div>
+
+            {/* Row 5: Responsible/ETA */}
+            <div className="flex justify-end mb-3">
+              <div className="text-right">
+                <div className="text-[13px] font-medium text-[#111827]">{complianceCase.assignedTo}</div>
+                <div className="text-[13px] text-[#6B7280]">ETA: {complianceCase.eta}</div>
+              </div>
             </div>
 
             {/* Row 6: Action Row - Buttons */}
