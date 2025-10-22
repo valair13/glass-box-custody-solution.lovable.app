@@ -10,11 +10,11 @@ interface StatusBadgeProps {
 
 const statusStyles = {
   "initiated": "bg-blue-100 text-blue-700 border-blue-200",
-  "approvals": "bg-amber-100 text-amber-700 border-amber-200",
-  "hsm-signed": "bg-indigo-100 text-indigo-700 border-indigo-200",
-  "broadcasted": "bg-purple-100 text-purple-700 border-purple-200",
-  "confirmed": "bg-success/10 text-success border-success/20",
-  "settled": "bg-success text-success-foreground border-success",
+  "approvals": "bg-[#E0F2FE] text-[#1E3A8A] border-transparent",
+  "hsm-signed": "bg-[#BFDBFE] text-[#1E3A8A] border-transparent",
+  "broadcasted": "bg-[#60A5FA] text-[#0F172A] border-transparent",
+  "confirmed": "bg-[#2563EB] text-white border-transparent",
+  "settled": "bg-[#1E3A8A] text-white border-transparent",
   "under-review": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
   "cleared": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
   "blocked": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
