@@ -195,14 +195,24 @@ export default function Reconciliation() {
                     key={chain.chain}
                     className="border-t border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors"
                   >
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
+                     <td className="px-6 py-4">
+                      <div className="flex items-center gap-3 relative">
                         <div className="w-8 h-8 rounded-full bg-[#5671B0]/10 flex items-center justify-center">
                           <span className="text-[#5671B0] text-xs font-semibold">
                             {chain.chain.substring(0, 2).toUpperCase()}
                           </span>
                         </div>
                         <span className="text-[14px] font-medium text-[#111827]">{chain.chain}</span>
+                        {chain.networkNote && (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <AlertTriangle className="w-4 h-4 text-[#B45309] cursor-help absolute -top-1 -right-1" />
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-white text-[#92400E]">
+                              <p>Anomaly Detected: {chain.networkNote}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        )}
                       </div>
                     </td>
                     <td className="px-6 py-4 text-[14px] text-[#6B7280]">{chain.asset}</td>
@@ -236,24 +246,6 @@ export default function Reconciliation() {
                       </Button>
                     </td>
                   </tr>
-                  {chain.networkNote && (
-                    <tr className="border-t border-[#E2E8F0] bg-[#FFF8E1]">
-                      <td colSpan={9} className="px-6 py-3">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <div className="flex items-center gap-2 text-[13px] text-[#996633] cursor-help">
-                              <AlertTriangle className="w-4 h-4" />
-                              <span className="font-medium">Anomaly Detected:</span>
-                              <span>{chain.networkNote}</span>
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Network congestion detected. Reconciliation delay.</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </td>
-                    </tr>
-                  )}
                 </>
               ))}
             </tbody>
@@ -267,23 +259,26 @@ export default function Reconciliation() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {chainData.map((chain) => {
             const hasAnomaly = chain.reconciliation < 95 || chain.networkNote;
+            const getPercentageColor = () => {
+              if (hasAnomaly) return "#B45309"; // Yellow-brown for issues
+              if (chain.risk === "medium") return "#B45309"; // Yellow-brown for medium risk
+              if (chain.risk === "high") return "#A32323"; // Red for high risk
+              return "#2563EB"; // Blue for normal/stable
+            };
+            
             return (
               <Tooltip key={chain.chain}>
                 <TooltipTrigger asChild>
                   <div
-                    className={`rounded-xl p-4 transition-all duration-300 cursor-pointer hover:-translate-y-1 border-2 ${
-                      hasAnomaly
-                        ? "bg-[#FFF8E1] border-[#FFF8E1]"
-                        : "bg-[#F0F4FF] border-[#DCE6FF]"
-                    }`}
+                    className="rounded-xl p-4 transition-all duration-300 cursor-pointer hover:-translate-y-1 border-2 bg-[#F8FAFC] border-[#E2E8F0]"
                   >
-                    <div className="w-10 h-10 rounded-full bg-[#5671B0]/15 flex items-center justify-center mb-3">
-                      <span className="text-[#5671B0] text-sm font-bold">
+                    <div className="w-10 h-10 rounded-full bg-[#E2E8F0] flex items-center justify-center mb-3">
+                      <span className="text-[#1E293B] text-sm font-bold">
                         {chain.chain.substring(0, 2).toUpperCase()}
                       </span>
                     </div>
-                    <div className="text-[13px] font-semibold text-[#111827] mb-1">{chain.chain}</div>
-                    <div className="text-[20px] font-bold text-[#2563EB] mb-1">
+                    <div className="text-[13px] font-semibold text-[#1E293B] mb-1">{chain.chain}</div>
+                    <div className="text-[20px] font-bold mb-1" style={{ color: getPercentageColor() }}>
                       {chain.reconciliation}%
                     </div>
                     <div className="text-[11px] text-[#6B7280]">{chain.lastVerified}</div>

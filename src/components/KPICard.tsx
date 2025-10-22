@@ -34,7 +34,7 @@ export default function KPICard({
 
   return (
     <div className={cn("glass-panel-hover rounded-2xl p-6", className)}>
-      <div className="flex items-start justify-between mb-4">
+      <div className="flex items-start justify-between mb-2">
         <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
           {title}
         </h3>
@@ -47,13 +47,13 @@ export default function KPICard({
         )}
       </div>
 
-      <div className="space-y-2">
-        <div className={cn("text-kpi", statusColors[status])}>
+      <div className="space-y-1.5">
+        <div className="text-[34px] font-bold text-[#1E3A8A] leading-none">
           {value}
         </div>
 
         {subtitle && (
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-[#6B7280]">
             {subtitle}
           </p>
         )}
