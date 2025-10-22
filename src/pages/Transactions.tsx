@@ -171,7 +171,7 @@ export default function Transactions() {
         <h2 className="text-lg font-semibold mb-4">Predictive Risk & Anomalies (last 24h)</h2>
         <div className="divide-y divide-[#E2E8F0]">
           <div className="flex items-center gap-4 h-[52px]">
-            <StatusBadge status="medium-risk" className="shrink-0">Medium Risk</StatusBadge>
+            <StatusBadge status="medium-risk" className="shrink-0">Medium</StatusBadge>
             <p className="text-[14px] font-medium text-[#0F172A] flex-1">
               Transaction amount 3.2x above average
             </p>
@@ -181,7 +181,7 @@ export default function Transactions() {
             <span className="text-[13px] text-[#64748B]">5 min ago</span>
           </div>
           <div className="flex items-center gap-4 h-[52px]">
-            <StatusBadge status="medium-risk" className="shrink-0">Medium Risk</StatusBadge>
+            <StatusBadge status="medium-risk" className="shrink-0">Medium</StatusBadge>
             <p className="text-[14px] font-medium text-[#0F172A] flex-1">
               Ethereum: finality delayed by 12 blocks
             </p>
@@ -191,7 +191,7 @@ export default function Transactions() {
             <span className="text-[13px] text-[#64748B]">8 min ago</span>
           </div>
           <div className="flex items-center gap-4 h-[52px]">
-            <StatusBadge status="high-risk" className="shrink-0">High Risk</StatusBadge>
+            <StatusBadge status="high-risk" className="shrink-0">High</StatusBadge>
             <p className="text-[14px] font-medium text-[#0F172A] flex-1">
               Multiple approval signatures pending beyond threshold
             </p>
