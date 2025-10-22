@@ -10,11 +10,11 @@ interface StatusBadgeProps {
 
 const statusStyles = {
   "initiated": "bg-blue-100 text-blue-700 border-blue-200",
-  "approvals": "bg-[#E0F2FE] text-[#1E3A8A] border-transparent",
-  "hsm-signed": "bg-[#BFDBFE] text-[#1E3A8A] border-transparent",
-  "broadcasted": "bg-[#60A5FA] text-[#0F172A] border-transparent",
-  "confirmed": "bg-[#2563EB] text-white border-transparent",
-  "settled": "bg-[#1E3A8A] text-white border-transparent",
+  "approvals": "bg-[#E6EEF9] text-[#1E3A8A] border-transparent",
+  "hsm-signed": "bg-[#7CA6F2] text-[#1E3A8A] border-transparent",
+  "broadcasted": "bg-[#3C6FE0] text-[#1E3A8A] border-transparent",
+  "confirmed": "bg-[#264FAD] text-[#1E3A8A] border-transparent",
+  "settled": "bg-[#1E3A8A] text-[#1E3A8A] border-transparent",
   "under-review": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
   "cleared": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
   "blocked": "bg-[#E8EEFA] text-[#1E3A8A] border-transparent",
@@ -33,7 +33,7 @@ export default function StatusBadge({ status, children, className }: StatusBadge
   return (
     <span
       className={cn(
-        "inline-flex items-center justify-center rounded-full font-semibold",
+        "inline-flex items-center justify-center rounded-full font-normal leading-[1.2]",
         "text-[12px] px-3 h-[28px]",
         statusStyles[status],
         className

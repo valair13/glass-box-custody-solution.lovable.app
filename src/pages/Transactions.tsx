@@ -92,9 +92,9 @@ const mockTransactions: Transaction[] = [
 
 const statusSteps = [
   { key: "initiated", label: "Initiated", description: "Transaction created and queued for approval" },
-  { key: "approvals", label: "Approvals", description: "Awaiting multi-signature approval from authorized parties" },
-  { key: "hsm-signed", label: "HSM-Signed", description: "Securely signed by Hardware Security Module" },
-  { key: "broadcasted", label: "Broadcasted", description: "Sent to blockchain network, awaiting confirmations" },
+  { key: "approvals", label: "Approval", description: "Awaiting multi-signature approval from authorized parties" },
+  { key: "hsm-signed", label: "HSM", description: "Securely signed by Hardware Security Module" },
+  { key: "broadcasted", label: "Broadcast", description: "Sent to blockchain network, awaiting confirmations" },
   { key: "confirmed", label: "Confirmed", description: "Network confirmed, awaiting final settlement" },
   { key: "settled", label: "Settled", description: "Transaction finalized and reconciled" },
 ];
@@ -144,9 +144,9 @@ export default function Transactions() {
             <SelectContent>
               <SelectItem value="all">All Statuses</SelectItem>
               <SelectItem value="initiated">Initiated</SelectItem>
-              <SelectItem value="approvals">Approvals</SelectItem>
-              <SelectItem value="hsm-signed">HSM-Signed</SelectItem>
-              <SelectItem value="broadcasted">Broadcasted</SelectItem>
+              <SelectItem value="approvals">Approval</SelectItem>
+              <SelectItem value="hsm-signed">HSM</SelectItem>
+              <SelectItem value="broadcasted">Broadcast</SelectItem>
               <SelectItem value="confirmed">Confirmed</SelectItem>
               <SelectItem value="settled">Settled</SelectItem>
             </SelectContent>
