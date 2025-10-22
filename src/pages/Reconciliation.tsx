@@ -287,8 +287,8 @@ export default function Reconciliation() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {chainData.map((chain) => {
             const statusConfig = {
-              operational: { label: "Operational", color: "#15803D", bg: "#F0FDF4" },
-              delayed: { label: "Delayed", color: "#B45309", bg: "#FFFBEB" },
+              operational: { label: "Operational", color: "#166534", bg: "#E8F6EE" },
+              delayed: { label: "Delayed", color: "#946C1E", bg: "#F9EED2" },
               degraded: { label: "Degraded", color: "#D97706", bg: "#FEF3C7" },
               offline: { label: "Offline", color: "#B91C1C", bg: "#FEF2F2" },
             };
