@@ -1,4 +1,4 @@
-import { TrendingUp, DollarSign, Clock, CheckCircle, Network, RefreshCw } from "lucide-react";
+import { TrendingUp, DollarSign, Clock, CheckCircle, Network, RefreshCw, CheckCheck, ArrowUpRight } from "lucide-react";
 import KPICard from "@/components/KPICard";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -178,9 +178,9 @@ export default function Summary() {
       {/* Operational Health Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="glass-panel rounded-2xl p-6">
-          <h3 className="text-lg font-semibold mb-4">Asset Allocation</h3>
-          <div className="flex items-center gap-8">
-            <div className="flex-1 h-64">
+          <h3 className="text-[16px] font-semibold text-[#111827] mb-5">Asset Allocation</h3>
+          <div className="flex items-start gap-8">
+            <div className="flex-1 h-56">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -188,7 +188,7 @@ export default function Summary() {
                     cx="50%"
                     cy="50%"
                     innerRadius={60}
-                    outerRadius={90}
+                    outerRadius={85}
                     paddingAngle={2}
                     dataKey="percentage"
                   >
@@ -210,16 +210,16 @@ export default function Summary() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2 pt-1">
               {assetAllocationData.map((item, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div 
-                    className="w-3 h-3 rounded-full" 
+                    className="w-3 h-3 rounded-full flex-shrink-0" 
                     style={{ backgroundColor: item.color }}
                   />
                   <div className="flex-1">
-                    <div className="font-medium text-sm">{item.asset}</div>
-                    <div className="text-xs text-muted-foreground">
+                    <div className="text-[14px] font-medium text-[#334155]">{item.asset}</div>
+                    <div className="text-[13px] text-[#64748B]">
                       {item.percentage}% • ${item.value}M
                     </div>
                   </div>
@@ -230,21 +230,23 @@ export default function Summary() {
         </Card>
 
         <Card className="glass-panel rounded-2xl p-6">
-          <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
-          <div className="space-y-4">
+          <h3 className="text-[16px] font-semibold text-[#111827] mb-5">Recent Activity</h3>
+          <div className="space-y-3">
             {[
-              { time: "14:45", action: "Transaction settled", status: "success" },
-              { time: "14:32", action: "ERP sync completed", status: "success" },
-              { time: "13:18", action: "Compliance check cleared", status: "success" },
-              { time: "12:55", action: "New transaction initiated", status: "pending" },
-              { time: "11:30", action: "Reconciliation completed", status: "success" },
+              { time: "14:45", action: "Transaction settled", icon: "success" },
+              { time: "14:32", action: "ERP sync completed", icon: "success" },
+              { time: "13:18", action: "Compliance check cleared", icon: "success" },
+              { time: "12:55", action: "New transaction initiated", icon: "pending" },
+              { time: "11:30", action: "Reconciliation completed", icon: "success" },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-3">
-                <div className={`w-2 h-2 rounded-full ${
-                  item.status === "success" ? "bg-success" : "bg-warning"
-                }`} />
-                <span className="text-sm text-muted-foreground">{item.time}</span>
-                <span className="text-sm flex-1">{item.action}</span>
+                {item.icon === "success" ? (
+                  <CheckCheck className="w-4 h-4 text-[#1E3A8A] flex-shrink-0" strokeWidth={2} />
+                ) : (
+                  <ArrowUpRight className="w-4 h-4 text-[#1E3A8A] flex-shrink-0" strokeWidth={2} />
+                )}
+                <span className="text-[14px] text-[#64748B] w-12 flex-shrink-0">{item.time}</span>
+                <span className="text-[14px] text-[#334155] flex-1 leading-[22px]">{item.action}</span>
               </div>
             ))}
           </div>
