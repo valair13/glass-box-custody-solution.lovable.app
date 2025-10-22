@@ -254,7 +254,7 @@ export default function Compliance() {
                 <p className="text-[15px] text-[#334155]">{complianceCase.subtitle}</p>
               </div>
               <StatusBadge status={complianceCase.status}>
-                {complianceCase.status === "under-review" ? "Under Review" : 
+                {complianceCase.status === "under-review" ? "Under review" : 
                  complianceCase.status === "cleared" ? "Cleared" : "Blocked"}
               </StatusBadge>
             </div>
@@ -302,8 +302,8 @@ export default function Compliance() {
             {/* Row 4: Footer Row - Risk Badge (left) + Responsible/ETA (right) */}
             <div className="flex items-center justify-between mb-5">
               <StatusBadge status={`${complianceCase.riskLevel}-risk` as any}>
-                {complianceCase.riskLevel === "low" ? "Low Risk" : 
-                 complianceCase.riskLevel === "medium" ? "Medium Risk" : "High Risk"}
+                {complianceCase.riskLevel === "low" ? "Low risk" : 
+                 complianceCase.riskLevel === "medium" ? "Medium risk" : "High risk"}
               </StatusBadge>
               <div className="text-right">
                 <div className="text-[13px] font-medium text-[#111827]">{complianceCase.assignedTo}</div>
@@ -321,7 +321,7 @@ export default function Compliance() {
                   setSelectedCase(complianceCase);
                 }}
               >
-                Resolve Case
+                Resolve
               </Button>
               <Button
                 variant="outline"
