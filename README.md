@@ -1,73 +1,100 @@
-# Welcome to your Lovable project
+**Institutional Transparency Dashboard**
 
-## Project info
+*A research by [Valeriia Airapetova](https://github.com/valairapetova)*
 
-**URL**: https://lovable.dev/projects/cd700ab9-bcc9-4253-ad84-88d14b3ae203
+**Based on data and insights from publicly available institutional reports and open-source materials.**
 
-## How can I edit this code?
+## 🧭 Overview
 
-There are several ways of editing your application.
+This repository documents a **research-driven UX/UI exploration** focused on improving institutional transparency, auditability, and client trust within **Anchorage Digital**, a U.S.-chartered crypto custody platform for institutional investors.
 
-**Use Lovable**
+The project includes:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/cd700ab9-bcc9-4253-ad84-88d14b3ae203) and start prompting.
+* Product analysis based on open data and institutional reports
+* UX redesign for Anchorage Digital’s **Custody Dashboard**
+* Prototyped interface screens (built in [Lovable](https://lovable.dev))
+* Design rationale rooted in compliance, risk transparency, and operational clarity
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🎯 Objectives
 
-**Use your preferred IDE**
+* Enhance **client transparency** and confidence in institutional crypto operations
+* Simplify the **compliance workflow** and make audit trails intuitive
+* Present **multi-chain reconciliation data** clearly and interactively
+* Maintain Anchorage’s **institutional tone** while improving user experience
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🧩 Main Deliverables
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 1. **Glass-box Compliance**
 
-Follow these steps:
+A reimagined compliance dashboard with:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+* Visible audit trail per transaction
+* Dual-status indicators (Alert Status + Risk Level)
+* Calm, banking-grade visual system (muted institutional palette)
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 2. **Cross-chain Reconciliation Hub**
 
-# Step 3: Install the necessary dependencies.
-npm i
+A cross-network data visualization module:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+* Reconciliation accuracy across supported chains
+* ERP export and audit snapshot integration
+* Interactive anomaly alerts and blockchain health map
 
-**Edit a file directly in GitHub**
+### 3. **Transparency Summary**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Executive-level dashboard with:
 
-**Use GitHub Codespaces**
+* Key custody metrics (Trust Score, Assets, Reconciliation Rate)
+* Institutional alignment and equalized visual rhythm across cards
+* Simplified performance trend visualization
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### 4. **Overview Dashboard**
 
-## What technologies are used for this project?
+High-level operational overview:
 
-This project is built with:
+* Real-time activity feed and asset distribution
+* Unified baseline alignment across analytical blocks
+* Minimal, data-centric iconography
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🧠 Design Principles
 
-## How can I deploy this project?
+* **Transparency as Trust:** every number and status has visible reasoning
+* **Institutional Calm:** clarity over color, minimal cognitive noise
+* **Consistency:** unified grid, type scale, and metric placement
+* **Audit-Readiness:** built for compliance officers and C-suite visibility
 
-Simply open [Lovable](https://lovable.dev/projects/cd700ab9-bcc9-4253-ad84-88d14b3ae203) and click on Share -> Publish.
+## ⚙️ Tools & Stack
 
-## Can I connect a custom domain to my Lovable project?
+* **Design & Prototyping:** [Lovable.dev](https://lovable.dev)
+* **Visualization & Charts:** Figma → High-Fidelity Concept Transfer
+* **Research Sources:** Public institutional data, compliance reports, crypto-custody industry insights
 
-Yes, you can!
+## 📈 Key Screens
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+* `overview.png` — Transparency Summary
+* `compliance.png` — Glass-box Compliance
+* `reconciliation.png` — Cross-chain Reconciliation Hub
+* `activity.png` — Recent Activity & Asset Allocation
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 📚 References & Open Data Sources
+
+The research builds upon verified public reports and institutional studies, including:
+
+* **Fidelity Digital Assets – Institutional Investors Digital Assets Study (2023)**
+* **EY – Institutional Investor Trends 2025**
+* **OECD – Institutionalisation of Crypto-Assets Report (2023)**
+* **PwC – Crypto Hedge Fund Report (2022-2023)**
+* **Chainalysis – The 2023 Crypto Crime Report**
+* **Deloitte – 2023 Global Blockchain Survey**
+* **Galaxy Digital & Messari Institutional Adoption Briefs**
+
+## 🖋️ Author
+
+**Valeriia Airapetova**
+Product Manager & Product Owner with over 5 years in crypto, web3 and fintech.
+Focused at the intersection of user experience, cognitive science, and behavioral economics.
+My background combines deep passion to blockchain technologies with experience in launching products from 0.
+
+📧 valeria.airapetova@gmail.com
+🔗 https://www.linkedin.com/in/valeriia-airapetova/
+📱 +351 962 245 240
