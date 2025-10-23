@@ -114,7 +114,7 @@ export default function Transactions() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-heading mb-2">Transaction Status Timeline</h1>
+          <h1 className="text-heading mb-2">Transaction Dashboard</h1>
           <p className="text-muted-foreground">
             Complete lifecycle tracking with explainability and confidence
           </p>
