@@ -1,6 +1,6 @@
 ## Institutional Transparency Dashboard
 
-*A research by [Valeriia Airapetova](https://github.com/valairapetova)*
+*A research by [Valeriia Airapetova](https://github.com/valairapetova).*
 
 **Based on data and insights from publicly available institutional reports and open-source materials.**
 
