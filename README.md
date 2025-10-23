@@ -1,4 +1,4 @@
-**Institutional Transparency Dashboard**
+## Institutional Transparency Dashboard
 
 *A research by [Valeriia Airapetova](https://github.com/valairapetova)*
 
