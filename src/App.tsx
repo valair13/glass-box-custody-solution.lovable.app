@@ -8,6 +8,8 @@ import Summary from "./pages/Summary";
 import Transactions from "./pages/Transactions";
 import Compliance from "./pages/Compliance";
 import Reconciliation from "./pages/Reconciliation";
+import InstitutionalControl from "./pages/InstitutionalControl";
+import TransparencyDashboard from "./pages/TransparencyDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +29,8 @@ const App = () => (
                 <Route path="transactions" element={<Transactions />} />
                 <Route path="compliance" element={<Compliance />} />
                 <Route path="reconciliation" element={<Reconciliation />} />
+                <Route path="institutional-control" element={<InstitutionalControl />} />
+                <Route path="transparency" element={<TransparencyDashboard />} />
               </Routes>
             </DashboardLayout>
           } />

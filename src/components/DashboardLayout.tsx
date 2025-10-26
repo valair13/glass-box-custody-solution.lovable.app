@@ -7,6 +7,8 @@ import {
   Network,
   Bell,
   Settings,
+  Users,
+  Eye,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +21,8 @@ const navItems = [
   { to: "/dashboard/transactions", icon: Activity, label: "Transactions" },
   { to: "/dashboard/compliance", icon: Shield, label: "Compliance" },
   { to: "/dashboard/reconciliation", icon: Network, label: "Reconciliation" },
+  { to: "/dashboard/institutional-control", icon: Users, label: "Control Layer" },
+  { to: "/dashboard/transparency", icon: Eye, label: "Transparency" },
 ];
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
