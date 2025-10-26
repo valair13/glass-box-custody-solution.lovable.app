@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Shield, TrendingUp, Activity, Clock, FileText, Download } from "lucide-react";
+import { Shield, TrendingUp, Activity, Clock, FileText, Download, Copy, ExternalLink } from "lucide-react";
 import KPICard from "@/components/KPICard";
 import { LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import StatusBadge from "@/components/StatusBadge";
@@ -24,6 +24,7 @@ const anomalyData = [
 ];
 
 interface Activity {
+  id: string;
   date: string;
   asset: string;
   amount: string;
@@ -35,12 +36,12 @@ interface Activity {
 }
 
 const recentActivities: Activity[] = [
-  { date: "2024-01-16 14:32", asset: "BTC", amount: "2.45", usdValue: "$142,350", counterparty: "Coinbase Prime", status: "settled", eta: "Completed", approver: "Sarah Chen" },
-  { date: "2024-01-16 13:18", asset: "ETH", amount: "125.00", usdValue: "$456,250", counterparty: "Kraken Institutional", status: "confirmed", eta: "~5 min", approver: "Michael Torres" },
-  { date: "2024-01-16 12:05", asset: "USDC", amount: "500,000", usdValue: "$500,000", counterparty: "Circle", status: "broadcasted", eta: "~8 min", approver: "Jessica Park" },
-  { date: "2024-01-15 16:45", asset: "SOL", amount: "1,200", usdValue: "$127,200", counterparty: "FTX US (Legacy)", status: "hsm-signed", eta: "~12 min", approver: "David Kim" },
-  { date: "2024-01-15 14:20", asset: "BTC", amount: "0.85", usdValue: "$49,385", counterparty: "Gemini Trust", status: "approvals", eta: "~20 min", approver: "Alex Rivera" },
-  { date: "2024-01-15 09:30", asset: "ETH", amount: "50.00", usdValue: "$182,500", counterparty: "Coinbase", status: "initiated", eta: "~25 min", approver: "Emma Davis" },
+  { id: "TXN-2024-101", date: "2024-01-16 14:32", asset: "BTC", amount: "2.45", usdValue: "$142,350", counterparty: "Coinbase Prime", status: "settled", eta: "Completed", approver: "Sarah Chen" },
+  { id: "TXN-2024-102", date: "2024-01-16 13:18", asset: "ETH", amount: "125.00", usdValue: "$456,250", counterparty: "Kraken Institutional", status: "confirmed", eta: "~5 min", approver: "Michael Torres" },
+  { id: "TXN-2024-103", date: "2024-01-16 12:05", asset: "USDC", amount: "500,000", usdValue: "$500,000", counterparty: "Circle", status: "broadcasted", eta: "~8 min", approver: "Jessica Park" },
+  { id: "TXN-2024-104", date: "2024-01-15 16:45", asset: "SOL", amount: "1,200", usdValue: "$127,200", counterparty: "FTX US (Legacy)", status: "hsm-signed", eta: "~12 min", approver: "David Kim" },
+  { id: "TXN-2024-105", date: "2024-01-15 14:20", asset: "BTC", amount: "0.85", usdValue: "$49,385", counterparty: "Gemini Trust", status: "approvals", eta: "~20 min", approver: "Alex Rivera" },
+  { id: "TXN-2024-106", date: "2024-01-15 09:30", asset: "ETH", amount: "50.00", usdValue: "$182,500", counterparty: "Coinbase", status: "initiated", eta: "~25 min", approver: "Emma Davis" },
 ];
 
 export default function TransparencyDashboard() {
@@ -226,6 +227,7 @@ export default function TransparencyDashboard() {
                 <TableHead>Status</TableHead>
                 <TableHead>ETA</TableHead>
                 <TableHead>Approver</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -247,6 +249,25 @@ export default function TransparencyDashboard() {
                   </TableCell>
                   <TableCell>{activity.eta}</TableCell>
                   <TableCell className="text-muted-foreground">{activity.approver}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => navigator.clipboard.writeText(activity.id)}
+                        title="Copy Transaction ID"
+                      >
+                        <Copy className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        title="View Details"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
