@@ -25,19 +25,22 @@ const anomalyData = [
 
 interface Activity {
   date: string;
-  network: string;
-  type: string;
-  status: "confirmed" | "pending" | "blocked";
-  reviewer: string;
+  asset: string;
+  amount: string;
+  usdValue: string;
+  counterparty: string;
+  status: "initiated" | "approvals" | "hsm-signed" | "broadcasted" | "confirmed" | "settled";
+  eta: string;
+  approver: string;
 }
 
 const recentActivities: Activity[] = [
-  { date: "2024-01-16", network: "Ethereum", type: "Withdrawal", status: "confirmed", reviewer: "M. Torres" },
-  { date: "2024-01-16", network: "Bitcoin", type: "Deposit", status: "confirmed", reviewer: "S. Chen" },
-  { date: "2024-01-16", network: "Polygon", type: "Transfer", status: "pending", reviewer: "—" },
-  { date: "2024-01-15", network: "Solana", type: "Withdrawal", status: "confirmed", reviewer: "E. Davis" },
-  { date: "2024-01-15", network: "Ethereum", type: "Swap", status: "confirmed", reviewer: "M. Torres" },
-  { date: "2024-01-15", network: "Bitcoin", type: "Transfer", status: "blocked", reviewer: "S. Chen" },
+  { date: "2024-01-16 14:32", asset: "BTC", amount: "2.45", usdValue: "$142,350", counterparty: "Coinbase Prime", status: "settled", eta: "Completed", approver: "Sarah Chen" },
+  { date: "2024-01-16 13:18", asset: "ETH", amount: "125.00", usdValue: "$456,250", counterparty: "Kraken Institutional", status: "confirmed", eta: "~5 min", approver: "Michael Torres" },
+  { date: "2024-01-16 12:05", asset: "USDC", amount: "500,000", usdValue: "$500,000", counterparty: "Circle", status: "broadcasted", eta: "~8 min", approver: "Jessica Park" },
+  { date: "2024-01-15 16:45", asset: "SOL", amount: "1,200", usdValue: "$127,200", counterparty: "FTX US (Legacy)", status: "hsm-signed", eta: "~12 min", approver: "David Kim" },
+  { date: "2024-01-15 14:20", asset: "BTC", amount: "0.85", usdValue: "$49,385", counterparty: "Gemini Trust", status: "approvals", eta: "~20 min", approver: "Alex Rivera" },
+  { date: "2024-01-15 09:30", asset: "ETH", amount: "50.00", usdValue: "$182,500", counterparty: "Coinbase", status: "initiated", eta: "~25 min", approver: "Emma Davis" },
 ];
 
 export default function TransparencyDashboard() {
@@ -216,24 +219,34 @@ export default function TransparencyDashboard() {
             <TableHeader>
               <TableRow>
                 <TableHead>Date</TableHead>
-                <TableHead>Network</TableHead>
-                <TableHead>Type</TableHead>
+                <TableHead>Asset</TableHead>
+                <TableHead>Amount (Crypto)</TableHead>
+                <TableHead>USD Value</TableHead>
+                <TableHead>Counterparty</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Reviewer</TableHead>
+                <TableHead>ETA</TableHead>
+                <TableHead>Approver</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {recentActivities.map((activity, idx) => (
                 <TableRow key={idx}>
                   <TableCell className="font-medium">{activity.date}</TableCell>
-                  <TableCell>{activity.network}</TableCell>
-                  <TableCell>{activity.type}</TableCell>
+                  <TableCell className="font-medium">{activity.asset}</TableCell>
+                  <TableCell className="tabular-nums">{activity.amount}</TableCell>
+                  <TableCell className="font-medium">{activity.usdValue}</TableCell>
+                  <TableCell>{activity.counterparty}</TableCell>
                   <TableCell>
                     <StatusBadge status={activity.status}>
-                      {activity.status === "confirmed" ? "Approved" : activity.status === "blocked" ? "Rejected" : "Pending"}
+                      {activity.status === "initiated" ? "Initiated" :
+                       activity.status === "approvals" ? "Approval" :
+                       activity.status === "hsm-signed" ? "HSM" :
+                       activity.status === "broadcasted" ? "Broadcast" :
+                       activity.status === "confirmed" ? "Confirmed" : "Settled"}
                     </StatusBadge>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">{activity.reviewer}</TableCell>
+                  <TableCell>{activity.eta}</TableCell>
+                  <TableCell className="text-muted-foreground">{activity.approver}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
