@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "./components/DashboardLayout";
-import Summary from "./pages/Summary";
 import Transactions from "./pages/Transactions";
 import Compliance from "./pages/Compliance";
 import Reconciliation from "./pages/Reconciliation";
@@ -21,11 +20,10 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/dashboard/summary" replace />} />
+          <Route path="/" element={<Navigate to="/dashboard/transactions" replace />} />
           <Route path="/dashboard/*" element={
             <DashboardLayout>
               <Routes>
-                <Route path="summary" element={<Summary />} />
                 <Route path="transactions" element={<Transactions />} />
                 <Route path="compliance" element={<Compliance />} />
                 <Route path="reconciliation" element={<Reconciliation />} />

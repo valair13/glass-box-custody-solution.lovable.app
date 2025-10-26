@@ -17,7 +17,6 @@ interface DashboardLayoutProps {
 }
 
 const navItems = [
-  { to: "/dashboard/summary", icon: LayoutDashboard, label: "Overview" },
   { to: "/dashboard/transactions", icon: Activity, label: "Transactions" },
   { to: "/dashboard/compliance", icon: Shield, label: "Compliance" },
   { to: "/dashboard/reconciliation", icon: Network, label: "Reconciliation" },
