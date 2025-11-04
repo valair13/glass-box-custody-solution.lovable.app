@@ -24,12 +24,12 @@ One-click export for compliance — PDF/JSON report with key attestations and ti
 
 ## 🧭 Overview
 
-This repository documents a **research-driven UX/UI exploration** focused on improving institutional transparency, auditability, and client trust within **Anchorage Digital**, a U.S.-chartered crypto custody platform for institutional investors.
+This repository documents a **research-driven UX/UI exploration** focused on improving institutional transparency, auditability, and client trust within custody platform for institutional investors.
 
 The project includes:
 
 * Product analysis based on open data and institutional reports
-* UX redesign for Anchorage Digital’s **Custody Dashboard**
+* UX redesign for **Custody Dashboard**
 * Prototyped interface screens (built in [Lovable](https://lovable.dev))
 * Design rationale rooted in compliance, risk transparency, and operational clarity
 
@@ -38,7 +38,7 @@ The project includes:
 * Enhance **client transparency** and confidence in institutional crypto operations
 * Simplify the **compliance workflow** and make audit trails intuitive
 * Present **multi-chain reconciliation data** clearly and interactively
-* Maintain Anchorage’s **institutional tone** while improving user experience
+* Maintain **institutional tone** while improving user experience
 
 ## 🧩 Main Deliverables
 
