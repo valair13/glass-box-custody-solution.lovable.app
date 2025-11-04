@@ -4,6 +4,24 @@
 
 **Based on data and insights from publicly available institutional reports and open-source materials.**
 
+## Suggested UX Patterns 
+
+Transaction timeline — shows the full flow (init → sequencing → proving → finality) with clear statuses and ETA.
+
+Plain-language receipt — human-readable operation summary plus hash/links for auditors.
+
+Cross-chain clarity — visual map of “from → to,” exchange rates, bridge/message layer, and finality per side.
+
+Proof badges — “ZK-verified,” “settled,” “awaiting challenge window” — as visible trust indicators.
+
+Risk & fees upfront — estimated fees/time ranges with explanation of influencing factors.
+
+Data provenance — where the data comes from, last update time, and who signed it (attestations).
+
+Failure states with guidance — what to do if something is stuck, who to contact, auto-log collection.
+
+One-click export for compliance — PDF/JSON report with key attestations and timestamps.
+
 ## 🧭 Overview
 
 This repository documents a **research-driven UX/UI exploration** focused on improving institutional transparency, auditability, and client trust within **Anchorage Digital**, a U.S.-chartered crypto custody platform for institutional investors.
