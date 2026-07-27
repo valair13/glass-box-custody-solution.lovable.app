@@ -65,6 +65,15 @@ const stateConfig: Record<OperationalState, { label: string; color: string; bg: 
   "proof-delayed": { label: "Verification delayed", color: "#946C1E", bg: "#F9EED2", badge: "medium-risk" },
 };
 
+const actionsByState: Record<OperationalState, { primary: string; others: string[] }> = {
+  operational: { primary: "Export audit evidence", others: ["Re-run verification", "View reconciliation report"] },
+  "needs-attention": { primary: "Re-run verification", others: ["Escalate to reconciliation team", "Export audit evidence"] },
+  "waiting-finality": { primary: "Notify counterparty", others: ["Re-run verification", "Export interim evidence"] },
+  "compliance-hold": { primary: "Review and approve", others: ["Escalate", "Request additional verification"] },
+  "proof-delayed": { primary: "Request priority verification", others: ["Re-run verification", "Notify counterparty"] },
+};
+
+
 const systemData: SystemRow[] = [
   {
     system: "Internal Ledger",
