@@ -113,8 +113,8 @@ const systemData: SystemRow[] = [
     lastVerified: "8 min ago",
     confidence: 95.3,
     operationalState: "proof-delayed",
-    note: "Proof generation queued behind a high-volume batch.",
-    reason: "Proof generation delayed for batch #482,131",
+    note: "Verification queued behind a high-volume settlement batch.",
+    reason: "Settlement verification delayed on 1 batch",
     accountsTracked: 31,
     evidence: [
       { label: "Settlement cryptographically verified", state: "pending", detail: "Batch #482,131 queued" },
@@ -133,8 +133,8 @@ const systemData: SystemRow[] = [
     lastVerified: "2 min ago",
     confidence: 97.2,
     operationalState: "waiting-finality",
-    note: "Finality window extended during peak gas period.",
-    reason: "Waiting for Ethereum finality on 2 batches",
+    note: "Final confirmation window extended during peak network load.",
+    reason: "2 settlements awaiting final confirmation",
     accountsTracked: 29,
     evidence: [
       { label: "Settlement cryptographically verified", state: "passed" },
@@ -189,8 +189,8 @@ const systemData: SystemRow[] = [
 const reconciliationChain = [
   { label: "Internal Ledger", detail: "Book of record matched", icon: Building2, done: true },
   { label: "Custodian", detail: "Statements reconciled", icon: Landmark, done: true },
-  { label: "zkSync", detail: "Proof verified", icon: Layers, done: true },
-  { label: "Ethereum", detail: "Finality reached", icon: ShieldCheck, done: true },
+  { label: "Settlement network", detail: "Cryptographically verified", icon: Layers, done: true },
+  { label: "Final confirmation", detail: "Irreversible settlement", icon: ShieldCheck, done: true },
   { label: "Settlement completed", detail: "Audit evidence stored", icon: CircleCheck, done: true },
 ];
 
