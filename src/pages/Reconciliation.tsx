@@ -60,9 +60,9 @@ interface SystemRow {
 const stateConfig: Record<OperationalState, { label: string; color: string; bg: string; badge: string }> = {
   operational: { label: "Operational", color: "#166534", bg: "#E8F6EE", badge: "low-risk" },
   "needs-attention": { label: "Needs Attention", color: "#946C1E", bg: "#F9EED2", badge: "medium-risk" },
-  "waiting-finality": { label: "Waiting for Finality", color: "#946C1E", bg: "#F9EED2", badge: "medium-risk" },
+  "waiting-finality": { label: "Awaiting final confirmation", color: "#946C1E", bg: "#F9EED2", badge: "medium-risk" },
   "compliance-hold": { label: "Compliance Hold", color: "#A32323", bg: "#F8D9D9", badge: "high-risk" },
-  "proof-delayed": { label: "Proof Delayed", color: "#946C1E", bg: "#F9EED2", badge: "medium-risk" },
+  "proof-delayed": { label: "Verification delayed", color: "#946C1E", bg: "#F9EED2", badge: "medium-risk" },
 };
 
 const systemData: SystemRow[] = [
@@ -79,10 +79,10 @@ const systemData: SystemRow[] = [
     accountsTracked: 38,
     evidence: [
       { label: "Internal ledger matched", state: "passed" },
-      { label: "Treasury records matched", state: "passed" },
-      { label: "Compliance verified", state: "passed" },
-      { label: "ZK Proof verified", state: "passed" },
-      { label: "L1 Finality reached", state: "passed" },
+      { label: "Treasury ledger matched", state: "passed" },
+      { label: "Compliance policy satisfied", state: "passed" },
+      { label: "Settlement cryptographically verified", state: "passed" },
+      { label: "Final confirmation reached", state: "passed" },
     ],
   },
   {
@@ -98,10 +98,10 @@ const systemData: SystemRow[] = [
     accountsTracked: 26,
     evidence: [
       { label: "Internal ledger matched", state: "passed" },
-      { label: "Treasury records matched", state: "passed" },
-      { label: "Compliance verified", state: "passed" },
-      { label: "ZK Proof verified", state: "passed" },
-      { label: "L1 Finality reached", state: "passed" },
+      { label: "Treasury ledger matched", state: "passed" },
+      { label: "Compliance policy satisfied", state: "passed" },
+      { label: "Settlement cryptographically verified", state: "passed" },
+      { label: "Final confirmation reached", state: "passed" },
     ],
   },
   {
@@ -117,11 +117,11 @@ const systemData: SystemRow[] = [
     reason: "Proof generation delayed for batch #482,131",
     accountsTracked: 31,
     evidence: [
-      { label: "ZK Proof verified", state: "pending", detail: "Batch #482,131 queued" },
-      { label: "L1 Finality reached", state: "pending" },
-      { label: "Treasury records matched", state: "passed" },
+      { label: "Settlement cryptographically verified", state: "pending", detail: "Batch #482,131 queued" },
+      { label: "Final confirmation reached", state: "pending" },
+      { label: "Treasury ledger matched", state: "passed" },
       { label: "Internal ledger matched", state: "passed" },
-      { label: "Compliance verified", state: "passed" },
+      { label: "Compliance policy satisfied", state: "passed" },
     ],
   },
   {
@@ -137,11 +137,11 @@ const systemData: SystemRow[] = [
     reason: "Waiting for Ethereum finality on 2 batches",
     accountsTracked: 29,
     evidence: [
-      { label: "ZK Proof verified", state: "passed" },
-      { label: "L1 Finality reached", state: "pending", detail: "22 / 64 confirmations" },
-      { label: "Treasury records matched", state: "passed" },
+      { label: "Settlement cryptographically verified", state: "passed" },
+      { label: "Final confirmation reached", state: "pending", detail: "22 / 64 confirmations" },
+      { label: "Treasury ledger matched", state: "passed" },
       { label: "Internal ledger matched", state: "passed" },
-      { label: "Compliance verified", state: "passed" },
+      { label: "Compliance policy satisfied", state: "passed" },
     ],
   },
   {
@@ -157,10 +157,10 @@ const systemData: SystemRow[] = [
     reason: "Manual approval required on 1 mandate transfer",
     accountsTracked: 18,
     evidence: [
-      { label: "Compliance verified", state: "blocked", detail: "Policy 14.2 threshold exceeded" },
-      { label: "ZK Proof verified", state: "passed" },
-      { label: "L1 Finality reached", state: "passed" },
-      { label: "Treasury records matched", state: "passed" },
+      { label: "Compliance policy satisfied", state: "blocked", detail: "Policy 14.2 threshold exceeded" },
+      { label: "Settlement cryptographically verified", state: "passed" },
+      { label: "Final confirmation reached", state: "passed" },
+      { label: "Treasury ledger matched", state: "passed" },
       { label: "Internal ledger matched", state: "passed" },
     ],
   },
@@ -177,11 +177,11 @@ const systemData: SystemRow[] = [
     reason: "Settlement verification pending on 2 records",
     accountsTracked: 22,
     evidence: [
-      { label: "ZK Proof verified", state: "passed" },
-      { label: "L1 Finality reached", state: "passed" },
-      { label: "Treasury records matched", state: "pending", detail: "2 records outstanding" },
+      { label: "Settlement cryptographically verified", state: "passed" },
+      { label: "Final confirmation reached", state: "passed" },
+      { label: "Treasury ledger matched", state: "pending", detail: "2 records outstanding" },
       { label: "Internal ledger matched", state: "passed" },
-      { label: "Compliance verified", state: "passed" },
+      { label: "Compliance policy satisfied", state: "passed" },
     ],
   },
 ];
