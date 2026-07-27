@@ -60,10 +60,19 @@ interface SystemRow {
 const stateConfig: Record<OperationalState, { label: string; color: string; bg: string; badge: string }> = {
   operational: { label: "Operational", color: "#166534", bg: "#E8F6EE", badge: "low-risk" },
   "needs-attention": { label: "Needs Attention", color: "#946C1E", bg: "#F9EED2", badge: "medium-risk" },
-  "waiting-finality": { label: "Waiting for Finality", color: "#946C1E", bg: "#F9EED2", badge: "medium-risk" },
+  "waiting-finality": { label: "Awaiting final confirmation", color: "#946C1E", bg: "#F9EED2", badge: "medium-risk" },
   "compliance-hold": { label: "Compliance Hold", color: "#A32323", bg: "#F8D9D9", badge: "high-risk" },
-  "proof-delayed": { label: "Proof Delayed", color: "#946C1E", bg: "#F9EED2", badge: "medium-risk" },
+  "proof-delayed": { label: "Verification delayed", color: "#946C1E", bg: "#F9EED2", badge: "medium-risk" },
 };
+
+const actionsByState: Record<OperationalState, { primary: string; others: string[] }> = {
+  operational: { primary: "Export audit evidence", others: ["Re-run verification", "View reconciliation report"] },
+  "needs-attention": { primary: "Re-run verification", others: ["Escalate to reconciliation team", "Export audit evidence"] },
+  "waiting-finality": { primary: "Notify counterparty", others: ["Re-run verification", "Export interim evidence"] },
+  "compliance-hold": { primary: "Review and approve", others: ["Escalate", "Request additional verification"] },
+  "proof-delayed": { primary: "Request priority verification", others: ["Re-run verification", "Notify counterparty"] },
+};
+
 
 const systemData: SystemRow[] = [
   {
@@ -79,10 +88,10 @@ const systemData: SystemRow[] = [
     accountsTracked: 38,
     evidence: [
       { label: "Internal ledger matched", state: "passed" },
-      { label: "Treasury records matched", state: "passed" },
-      { label: "Compliance verified", state: "passed" },
-      { label: "ZK Proof verified", state: "passed" },
-      { label: "L1 Finality reached", state: "passed" },
+      { label: "Treasury ledger matched", state: "passed" },
+      { label: "Compliance policy satisfied", state: "passed" },
+      { label: "Settlement cryptographically verified", state: "passed" },
+      { label: "Final confirmation reached", state: "passed" },
     ],
   },
   {
@@ -98,10 +107,10 @@ const systemData: SystemRow[] = [
     accountsTracked: 26,
     evidence: [
       { label: "Internal ledger matched", state: "passed" },
-      { label: "Treasury records matched", state: "passed" },
-      { label: "Compliance verified", state: "passed" },
-      { label: "ZK Proof verified", state: "passed" },
-      { label: "L1 Finality reached", state: "passed" },
+      { label: "Treasury ledger matched", state: "passed" },
+      { label: "Compliance policy satisfied", state: "passed" },
+      { label: "Settlement cryptographically verified", state: "passed" },
+      { label: "Final confirmation reached", state: "passed" },
     ],
   },
   {
@@ -113,15 +122,15 @@ const systemData: SystemRow[] = [
     lastVerified: "8 min ago",
     confidence: 95.3,
     operationalState: "proof-delayed",
-    note: "Proof generation queued behind a high-volume batch.",
-    reason: "Proof generation delayed for batch #482,131",
+    note: "Verification queued behind a high-volume settlement batch.",
+    reason: "Settlement verification delayed on 1 batch",
     accountsTracked: 31,
     evidence: [
-      { label: "ZK Proof verified", state: "pending", detail: "Batch #482,131 queued" },
-      { label: "L1 Finality reached", state: "pending" },
-      { label: "Treasury records matched", state: "passed" },
+      { label: "Settlement cryptographically verified", state: "pending", detail: "Batch #482,131 queued" },
+      { label: "Final confirmation reached", state: "pending" },
+      { label: "Treasury ledger matched", state: "passed" },
       { label: "Internal ledger matched", state: "passed" },
-      { label: "Compliance verified", state: "passed" },
+      { label: "Compliance policy satisfied", state: "passed" },
     ],
   },
   {
@@ -133,15 +142,15 @@ const systemData: SystemRow[] = [
     lastVerified: "2 min ago",
     confidence: 97.2,
     operationalState: "waiting-finality",
-    note: "Finality window extended during peak gas period.",
-    reason: "Waiting for Ethereum finality on 2 batches",
+    note: "Final confirmation window extended during peak network load.",
+    reason: "2 settlements awaiting final confirmation",
     accountsTracked: 29,
     evidence: [
-      { label: "ZK Proof verified", state: "passed" },
-      { label: "L1 Finality reached", state: "pending", detail: "22 / 64 confirmations" },
-      { label: "Treasury records matched", state: "passed" },
+      { label: "Settlement cryptographically verified", state: "passed" },
+      { label: "Final confirmation reached", state: "pending", detail: "22 / 64 confirmations" },
+      { label: "Treasury ledger matched", state: "passed" },
       { label: "Internal ledger matched", state: "passed" },
-      { label: "Compliance verified", state: "passed" },
+      { label: "Compliance policy satisfied", state: "passed" },
     ],
   },
   {
@@ -157,10 +166,10 @@ const systemData: SystemRow[] = [
     reason: "Manual approval required on 1 mandate transfer",
     accountsTracked: 18,
     evidence: [
-      { label: "Compliance verified", state: "blocked", detail: "Policy 14.2 threshold exceeded" },
-      { label: "ZK Proof verified", state: "passed" },
-      { label: "L1 Finality reached", state: "passed" },
-      { label: "Treasury records matched", state: "passed" },
+      { label: "Compliance policy satisfied", state: "blocked", detail: "Policy 14.2 threshold exceeded" },
+      { label: "Settlement cryptographically verified", state: "passed" },
+      { label: "Final confirmation reached", state: "passed" },
+      { label: "Treasury ledger matched", state: "passed" },
       { label: "Internal ledger matched", state: "passed" },
     ],
   },
@@ -177,11 +186,11 @@ const systemData: SystemRow[] = [
     reason: "Settlement verification pending on 2 records",
     accountsTracked: 22,
     evidence: [
-      { label: "ZK Proof verified", state: "passed" },
-      { label: "L1 Finality reached", state: "passed" },
-      { label: "Treasury records matched", state: "pending", detail: "2 records outstanding" },
+      { label: "Settlement cryptographically verified", state: "passed" },
+      { label: "Final confirmation reached", state: "passed" },
+      { label: "Treasury ledger matched", state: "pending", detail: "2 records outstanding" },
       { label: "Internal ledger matched", state: "passed" },
-      { label: "Compliance verified", state: "passed" },
+      { label: "Compliance policy satisfied", state: "passed" },
     ],
   },
 ];
@@ -189,8 +198,8 @@ const systemData: SystemRow[] = [
 const reconciliationChain = [
   { label: "Internal Ledger", detail: "Book of record matched", icon: Building2, done: true },
   { label: "Custodian", detail: "Statements reconciled", icon: Landmark, done: true },
-  { label: "zkSync", detail: "Proof verified", icon: Layers, done: true },
-  { label: "Ethereum", detail: "Finality reached", icon: ShieldCheck, done: true },
+  { label: "Settlement network", detail: "Cryptographically verified", icon: Layers, done: true },
+  { label: "Final confirmation", detail: "Irreversible settlement", icon: ShieldCheck, done: true },
   { label: "Settlement completed", detail: "Audit evidence stored", icon: CircleCheck, done: true },
 ];
 
@@ -434,10 +443,10 @@ export default function Reconciliation() {
                     {expanded === row.system && (
                       <tr key={`${row.system}-why`} className="border-t border-[#E2E8F0] bg-[#F8FAFC]">
                         <td colSpan={9} className="px-6 py-5">
-                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <div>
                               <div className="text-[13px] font-semibold text-[#111827] mb-1">
-                                Where this confidence comes from
+                                Why we are {row.confidence}% confident
                               </div>
                               <div className="space-y-2.5 mt-3">
                                 {row.evidence.map((e) => (
@@ -446,12 +455,36 @@ export default function Reconciliation() {
                               </div>
                             </div>
                             <div>
-                              <div className="text-[13px] font-semibold text-[#111827] mb-1">Current reason</div>
+                              <div className="text-[13px] font-semibold text-[#111827] mb-1">What happened</div>
                               <p className="text-[14px] text-[#0F172A] mb-2">{row.reason}</p>
                               {row.note && <p className="text-[14px] text-[#6B7280]">{row.note}</p>}
-                              <p className="text-[14px] font-medium text-[#1E3A8A] mt-2">
-                                Last verified {row.lastVerified} • {row.accountsTracked} accounts in scope
-                              </p>
+                              <div className="text-[13px] font-semibold text-[#111827] mt-4 mb-1">
+                                Supporting records
+                              </div>
+                              <ul className="space-y-1">
+                                <li className="text-[13px] text-[#475569]">• Last verification: {row.lastVerified}</li>
+                                <li className="text-[13px] text-[#475569]">• Accounts in scope: {row.accountsTracked}</li>
+                                <li className="text-[13px] text-[#475569]">• Items awaiting explanation: {row.underReview}</li>
+                                <li className="text-[13px] text-[#475569]">• Audit trail available for export</li>
+                              </ul>
+                            </div>
+                            <div>
+                              <div className="text-[13px] font-semibold text-[#111827] mb-3">
+                                Recommended actions
+                              </div>
+                              <div className="flex flex-col gap-2 items-start">
+                                <Button size="sm">{actionsByState[row.operationalState].primary}</Button>
+                                {actionsByState[row.operationalState].others.map((a) => (
+                                  <Button
+                                    key={a}
+                                    size="sm"
+                                    variant="outline"
+                                    className="border-[#E2E8F0] text-[#5671B0] hover:bg-[#5671B0]/5"
+                                  >
+                                    {a}
+                                  </Button>
+                                ))}
+                              </div>
                             </div>
                           </div>
                         </td>
@@ -464,48 +497,80 @@ export default function Reconciliation() {
           </div>
         </Card>
 
-        {/* Operational Confidence Map */}
-        <Card className="bg-white rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
-          <h2 className="text-[18px] font-semibold text-[#111827] mb-6">Operational Confidence Map</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {systemData.map((row) => {
-              const status = stateConfig[row.operationalState];
-
-              return (
-                <Tooltip key={row.system}>
-                  <TooltipTrigger asChild>
-                    <div className="rounded-xl p-4 transition-all duration-300 cursor-pointer hover:-translate-y-1 border-2 bg-[#F8FAFC] border-[#E2E8F0]">
-                      <div className="w-10 h-10 rounded-full bg-[#E2E8F0] flex items-center justify-center mb-3">
-                        <span className="text-[#1E293B] text-sm font-bold">
-                          {row.system.substring(0, 2).toUpperCase()}
-                        </span>
-                      </div>
-                      <div className="text-[13px] font-semibold text-[#1E293B] mb-3">{row.system}</div>
-
-                      <div className="space-y-2">
-                        <div
-                          className="inline-block px-2 py-1 rounded text-[11px] font-semibold"
-                          style={{ backgroundColor: status.bg, color: status.color }}
-                        >
-                          {status.label}
-                        </div>
-                        <div className="text-[12px] text-[#6B7280]">
-                          Confidence: {row.confidence}%
-                        </div>
-                        <div className="text-[12px] text-[#6B7280]">
-                          Last Verified: {row.lastVerified}
-                        </div>
+        {/* Today's Operational Priorities */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <Card className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
+            <h2 className="text-[18px] font-semibold text-[#111827] mb-1">Today's Operational Priorities</h2>
+            <p className="text-[14px] text-[#6B7280] mb-5">
+              Ranked by business impact — each item has a next action
+            </p>
+            <div className="divide-y divide-[#E2E8F0]">
+              {systemData
+                .filter((s) => s.operationalState !== "operational")
+                .sort((a, b) => a.confidence - b.confidence)
+                .map((row, i) => (
+                  <div key={row.system} className="flex items-center gap-4 py-3">
+                    <span className="w-6 h-6 rounded-full bg-[#E8EEFA] text-[#1E3A8A] text-[12px] font-semibold flex items-center justify-center shrink-0">
+                      {i + 1}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[14px] font-medium text-[#0F172A]">{row.reason}</div>
+                      <div className="text-[13px] text-[#6B7280]">
+                        {row.system} • {row.accountsTracked} accounts in scope • confidence {row.confidence}%
                       </div>
                     </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{row.note ?? row.reason}</p>
-                  </TooltipContent>
-                </Tooltip>
-              );
-            })}
-          </div>
-        </Card>
+                    <StatusBadge status={stateConfig[row.operationalState].badge as any} className="shrink-0">
+                      {stateConfig[row.operationalState].label}
+                    </StatusBadge>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-[#E2E8F0] text-[#5671B0] hover:bg-[#5671B0]/5 shrink-0"
+                      onClick={() => setExpanded(row.system)}
+                    >
+                      {actionsByState[row.operationalState].primary}
+                    </Button>
+                  </div>
+                ))}
+            </div>
+          </Card>
+
+          <Card className="bg-white rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
+            <h2 className="text-[18px] font-semibold text-[#111827] mb-1">Audit Readiness</h2>
+            <p className="text-[14px] text-[#6B7280] mb-5">Can we defend today's numbers to an auditor?</p>
+            <div className="space-y-4">
+              <div>
+                <div className="flex items-baseline justify-between mb-1">
+                  <span className="text-[14px] text-[#6B7280]">Overall readiness</span>
+                  <span className="text-[14px] font-semibold text-[#111827]">96%</span>
+                </div>
+                <div className="h-2 bg-[#DCE6FF] rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-[#5671B0] to-[#2563EB]" style={{ width: "96%" }} />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-baseline justify-between mb-1">
+                  <span className="text-[14px] text-[#6B7280]">Evidence completeness</span>
+                  <span className="text-[14px] font-semibold text-[#111827]">99%</span>
+                </div>
+                <div className="h-2 bg-[#DCE6FF] rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-[#5671B0] to-[#2563EB]" style={{ width: "99%" }} />
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[14px] text-[#6B7280]">Missing audit documents</span>
+                <span className="text-[14px] font-semibold text-[#111827]">2</span>
+              </div>
+              <div className="flex flex-col gap-2 pt-1">
+                <Button size="sm">Export audit package</Button>
+                <Button size="sm" variant="outline" className="border-[#E2E8F0] text-[#5671B0] hover:bg-[#5671B0]/5">
+                  Resolve missing documents
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </div>
+
       </div>
     </TooltipProvider>
   );
