@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import {
   Download,
   ExternalLink,
@@ -423,7 +423,7 @@ export default function Transactions() {
             </thead>
             <tbody>
               {mockTransactions.map((tx) => (
-                <>
+                <Fragment key={tx.id}>
                   <tr
                     key={tx.id}
                     className="border-t border-border hover:bg-muted/30 transition-colors"
@@ -527,7 +527,7 @@ export default function Transactions() {
                       </td>
                     </tr>
                   )}
-                </>
+                </Fragment>
               ))}
             </tbody>
           </table>

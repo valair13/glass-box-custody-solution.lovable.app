@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import {
   Download,
   FileText,
@@ -361,7 +361,7 @@ export default function Reconciliation() {
               </thead>
               <tbody>
                 {systemData.map((row) => (
-                  <>
+                  <Fragment key={row.system}>
                     <tr
                       key={row.system}
                       className="border-t border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors"
@@ -457,7 +457,7 @@ export default function Reconciliation() {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </Fragment>
                 ))}
               </tbody>
             </table>
