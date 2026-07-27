@@ -18,9 +18,9 @@ interface DashboardLayoutProps {
 
 const navItems = [
   { to: "/dashboard/transparency", icon: Eye, label: "Transparency" },
-  { to: "/dashboard/transactions", icon: Activity, label: "Transactions" },
+  { to: "/dashboard/transactions", icon: Activity, label: "Transaction Confidence" },
   { to: "/dashboard/compliance", icon: Shield, label: "Compliance" },
-  { to: "/dashboard/reconciliation", icon: Network, label: "Reconciliation" },
+  { to: "/dashboard/reconciliation", icon: Network, label: "Operational Confidence" },
   { to: "/dashboard/institutional-control", icon: Users, label: "Control Layer" },
 ];
 
