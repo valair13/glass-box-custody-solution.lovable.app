@@ -20,7 +20,7 @@ const navItems = [
   { to: "/dashboard/transparency", icon: Eye, label: "Transparency" },
   { to: "/dashboard/transactions", icon: Activity, label: "Transaction Confidence" },
   { to: "/dashboard/compliance", icon: Shield, label: "Compliance" },
-  { to: "/dashboard/reconciliation", icon: Network, label: "Operational Confidence" },
+  { to: "/dashboard/reconciliation", icon: Network, label: "Settlement Assurance" },
   { to: "/dashboard/institutional-control", icon: Users, label: "Control Layer" },
 ];
 
