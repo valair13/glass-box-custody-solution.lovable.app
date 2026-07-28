@@ -408,7 +408,7 @@ export default function Reconciliation() {
             <table className="w-full">
               <thead className="bg-[#F8FAFC]">
                 <tr>
-                  <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Business Capability</th>
+                  <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Business Function</th>
                   <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Current Status</th>
                   <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Cases Requiring Attention</th>
                   <th className="text-left px-6 py-4 text-[13px] font-semibold text-[#111827]">Business Impact</th>
