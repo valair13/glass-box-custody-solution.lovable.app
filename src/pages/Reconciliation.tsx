@@ -281,11 +281,35 @@ export default function Reconciliation() {
   const awaitingDecision = capabilityData.filter(
     (c) => c.status === "compliance-hold" || c.status === "needs-attention"
   ).length;
-  const todayStatus = openIssues.some((c) => c.impact === "high")
-    ? "Proceeding with exceptions"
-    : openIssues.length > 0
-    ? "Proceeding with minor delays"
-    : "Proceeding normally";
+
+  const highImpactIssues = openIssues.filter((c) => c.impact === "high");
+  const complianceHolds = openIssues.filter((c) => c.status === "compliance-hold");
+  const delayedVerifications = openIssues.filter((c) => c.status === "verification-delayed");
+
+  const settlementStatus = (() => {
+    if (complianceHolds.length >= 2 || highImpactIssues.length >= 2) {
+      return {
+        label: "🔴 Blocked",
+        supporting: "Manual intervention required before settlements can continue",
+      };
+    }
+    if (delayedVerifications.length >= 2 || openIssues.length >= 8) {
+      return {
+        label: "🟠 Delayed",
+        supporting: "Settlement delays affecting client operations",
+      };
+    }
+    if (openIssues.length >= 5) {
+      return {
+        label: "🟡 Attention Required",
+        supporting: `${openIssues.length} operational issues require attention`,
+      };
+    }
+    return {
+      label: "🟢 On Track",
+      supporting: `${openIssues.length} operational issue${openIssues.length === 1 ? "" : "s"} require${openIssues.length === 1 ? "s" : ""} attention`,
+    };
+  })();
 
   const priorities = [...openIssues].sort(
     (a, b) => impactRank[a.impact] - impactRank[b.impact] || b.casesRequiringAttention - a.casesRequiringAttention
