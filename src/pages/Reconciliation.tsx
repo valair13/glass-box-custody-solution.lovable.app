@@ -331,8 +331,8 @@ export default function Reconciliation() {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           <KPICard
             title="Today's Settlement Status"
-            value={todayStatus}
-            subtitle={`${openIssues.length} exceptions being managed`}
+            value={settlementStatus.label}
+            subtitle={settlementStatus.supporting}
             icon={
               <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#E8EEFA]">
                 <ClipboardList className="w-6 h-6 text-[#1E3A8A]" strokeWidth={2} />
