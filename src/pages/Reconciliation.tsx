@@ -306,7 +306,7 @@ export default function Reconciliation() {
       };
     }
     return {
-      label: "🟢 On Track",
+      label: "On Track",
       supporting: `${openIssues.length} operational issue${openIssues.length === 1 ? "" : "s"} require${openIssues.length === 1 ? "s" : ""} attention`,
     };
   })();
