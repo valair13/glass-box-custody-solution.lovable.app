@@ -365,7 +365,7 @@ export default function Reconciliation() {
           <KPICard
             title="Awaiting Your Decision"
             value={awaitingDecision.toString()}
-            subtitle="Approvals and reconciliations assigned to you"
+            subtitle="2 actions assigned to you"
             icon={
               <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#E8EEFA]">
                 <UserCheck className="w-6 h-6 text-[#1E3A8A]" strokeWidth={2} />
