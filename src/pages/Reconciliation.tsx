@@ -354,7 +354,7 @@ export default function Reconciliation() {
           <KPICard
             title="Transactions Requiring Review"
             value={casesRequiringReview.toLocaleString()}
-            subtitle={`Across ${openIssues.length} business capabilities`}
+            subtitle={`Across ${openIssues.length} business functions`}
             icon={
               <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#E8EEFA]">
                 <Inbox className="w-6 h-6 text-[#1E3A8A]" strokeWidth={2} />
